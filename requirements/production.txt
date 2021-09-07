@@ -1,0 +1,4 @@
+-r _base.txt
+gunicorn==19.7.1
+boto3
+psycopg2-binary
