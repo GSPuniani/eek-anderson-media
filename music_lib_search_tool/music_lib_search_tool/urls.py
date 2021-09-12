@@ -21,10 +21,11 @@ from django.conf.urls.static import static
 from django.shortcuts import redirect
 
 from music_lib_search_tool.apps.core import views as core_views
-
+from music_lib_search_tool.apps.music_collection_search import views as music_collection_search_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("js-settings/", core_views.js_settings, name="js_settings"),
+    path("", music_collection_search_views, Search_View, name="Search_View")
 ]
 

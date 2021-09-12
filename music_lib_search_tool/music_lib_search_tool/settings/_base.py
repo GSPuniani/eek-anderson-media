@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'music_lib_search_tool.apps.core',
     'music_lib_search_tool.apps.user',
+    'music_lib_search_tool.apps.music_collection_search',
 ]
 
 
@@ -160,7 +161,7 @@ USE_TZ = True
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "myproject", "site_static")
+    os.path.join(BASE_DIR, "site_static")
 ]
 
 timestamp = get_git_changeset_timestamp(BASE_DIR)
