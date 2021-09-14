@@ -79,6 +79,27 @@
 
 input,
 #button {
-  border-radius: 4px;
+  border-radius: 6px;
   border: 2px solid #99cc00;
+  height: 50px;
+  padding: 10px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+input:focus {
+  outline: none;
+}
+
+input {
+  border-radius: 6px 0 0 6px;
+  width: 25em;
+}
+
+#button {
+  border-radius: 0 6px 6px 0;
+  width: 60px;
 }
