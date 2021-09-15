@@ -7,4 +7,4 @@ class Search_View(View):
 
     def get(self, request):
         context = {}
-        return render(request, 'music_collection_search/Search_View.html', context)        
+        return render(request, 'music_collection_search/Search_View.html', context)
