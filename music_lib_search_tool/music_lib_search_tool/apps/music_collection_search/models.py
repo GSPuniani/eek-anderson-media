@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-from music_collection_search.apps.gen.core.models import (
+from music_lib_search_tool.apps.core.models import (
     UuidBase,
     CreationModificationDateBase
 )
@@ -54,8 +54,6 @@ class Time_Signature(UuidBase, CreationModificationDateBase):
         managed = True
         db_table = 'time_signature'
 
-
-
 class Mode(UuidBase, CreationModificationDateBase):
 
     name = models.CharField(max_length=8)
@@ -72,6 +70,7 @@ class Keyword(UuidBase, CreationModificationDateBase):
     class Meta:
         managed = True
         db_table = 'keyword'
+
 
 class Production_Style(UuidBase, CreationModificationDateBase):
 
@@ -111,29 +110,33 @@ class Publisher_Split(UuidBase, CreationModificationDateBase):
         managed = True
         db_table = 'publisher_split'
 
+
 class Song(UuidBase, CreationModificationDateBase):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     bpm = models.IntegerField(blank=True, null=True)
     duration = models.DurationField(blank=True, null=True)
-    sounds_like = models.CharField(blank=True, null=True)
+    sounds_like = models.CharField(max_length=255, blank=True, null=True)
     tv_usage = models.BooleanField(blank=True, null=True)
     stock_sales = models.BooleanField(blank=True, null=True)
     data_complete = models.BooleanField(blank=True, null=True)
     overall_quality = models.IntegerField(blank=True, null=True)
     music_key = models.CharField(max_length=8)
-    genre = models.ManyToManyField(blank=True, null=True)
-    instrument = models.ManyToManyField(blank=True, null=True)
-    publisher = models.ManyToManyField(blank=True, null=True)
-    owner = models.ForeignKey(blank=True, null=True)
-    mood = models.ManyToManyField(blank=True, null=True)
-    time_signature = models.ForeignKey(blank=True, null=True)
-    mode = ForeignKey(blank=True, null=True)
-    keyword = models.ManyToManyField(blank=True, null=True)
-    production_style = models.ManyToManyField(blank=True, null=True)
-    exclusive = models.ForeignKey(blank=True, null=True)
-    publisher_split = models.ForeignKey(blank=True, null=True)
-    writer_split = models.ForeignKey(blank=True, null=True)
+    genre = models.ManyToManyField(Genre, blank=True, null=True)
+    instrument = models.ManyToManyField(Instrument, blank=True, null=True)
+    publisher = models.ManyToManyField(Publisher, blank=True, null=True)
+    owner = models.ForeignKey(Master_Owner, blank=True, null=True, on_delete=models.DO_NOTHING)
+    mood = models.ManyToManyField(Mood, blank=True, null=True)
+    time_signature = models.ForeignKey(Time_Signature, blank=True, null=True, on_delete=models.DO_NOTHING)
+    mode = models.ForeignKey(Mode, blank=True, null=True, on_delete=models.DO_NOTHING)
+    keyword = models.ManyToManyField(Keyword, blank=True, null=True)
+    production_style = models.ManyToManyField(Production_Style, blank=True, null=True)
+    is_exclusive = models.BooleanField(default=False)
+    exclusive_contact = models.CharField(max_length=128, blank=True, null=True)
+    exclusive_phone = models.CharField(max_length=128, blank=True, null=True)
+    exclusive_email = models.CharField(max_length=128, blank=True, null=True)
+    publisher_split = models.CharField(max_length=512, blank=True, null=True)
+    writer_split = models.CharField(max_length=512, blank=True, null=True)
     error = models.TextField(blank=True, null=True)
 
     class Meta:
