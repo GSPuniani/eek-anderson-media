@@ -82,15 +82,6 @@ class Production_Style(UuidBase, CreationModificationDateBase):
         db_table = 'production_style'
 
 
-class Production_Style(UuidBase, CreationModificationDateBase):
-
-    name = models.CharField(max_length=32)
-
-    class Meta:
-        managed = True
-        db_table = 'production_style'
-
-
 class Exclusive(UuidBase, CreationModificationDateBase):
 
     is_exclusive = models.BooleanField(max_length=32)
