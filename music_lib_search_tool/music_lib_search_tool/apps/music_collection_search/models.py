@@ -81,6 +81,35 @@ class Production_Style(UuidBase, CreationModificationDateBase):
         db_table = 'production_style'
 
 
+class Exclusive(UuidBase, CreationModificationDateBase):
+
+    is_exclusive = models.BooleanField(max_length=32)
+    Contract = models.TextField()
+
+    class Meta:
+        managed = True
+        db_table = 'exclusive'
+
+
+class Writer_Split(UuidBase, CreationModificationDateBase):
+
+    split_percent = models.FloatField()
+
+    class Meta:
+        managed = True
+        db_table = 'writer_split'
+
+
+class Publisher_Split(UuidBase, CreationModificationDateBase):
+
+    split_percent = models.FloatField(
+        validators=[MinValueValidator(0.0), MaxValueValidator(100.0)],
+    )
+
+    class Meta:
+        managed = True
+        db_table = 'publisher_split'
+
 
 class Song(UuidBase, CreationModificationDateBase):
     title = models.CharField(max_length=255)
