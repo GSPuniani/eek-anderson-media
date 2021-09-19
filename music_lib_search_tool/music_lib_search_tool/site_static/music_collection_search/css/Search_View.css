@@ -105,6 +105,12 @@ input {
   width: 60px;
 }
 
+#menubutton {
+  margin: auto;
+  padding-left: 10px;
+  padding-top: 9px;
+}
+
 .jumbotron jumbotron-fluid {
   width: 100%;
 }
@@ -160,4 +166,18 @@ input {
   .sidenav a {
     font-size: 18px;
   }
+}
+
+#menuitem {
+  padding-bottom: 2px;
+}
+
+#slider,
+#slider-range {
+  margin: 0 35px 10px 35px;
+}
+
+#amount {
+  margin: 5px;
+  border-radius: 2px;
 }
