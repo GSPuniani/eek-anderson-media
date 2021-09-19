@@ -35,7 +35,16 @@
     <!--navbar-->
     <div class="header-primary-nav">
       <div class="header-primary-nav-left">
-        <h1 id="logo">(logo)</h1>
+        <div id="mySidenav" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+            &times;
+          </a>
+          <a href="#">TIME</a>
+          <a href="#">GENRE</a>
+          <a href="#">INSTRUMENT</a>
+          <a href="#">MOOD</a>
+        </div>
+        <span onclick="openNav()"><i class="fas fa-bars"></i></span>
       </div>
       <div class="header-primary-nav-right ml-auto">
         <h1 id="logo">Song Database</h1>
@@ -50,5 +59,17 @@
         </button>
       </div>
     </div>
+    <!--script for filter menu-->
+    <script>
+      function openNav() {
+        document.getElementById('mySidenav').style.width = '250px';
+        document.getElementById('main').style.marginLeft = '250px';
+      }
+
+      function closeNav() {
+        document.getElementById('mySidenav').style.width = '0';
+        document.getElementById('main').style.marginLeft = '0';
+      }
+    </script>
   </body>
 </html>
