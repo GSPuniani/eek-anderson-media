@@ -29,6 +29,32 @@
     />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        $('#slider-range').slider({
+          range: true,
+          min: 0,
+          max: 300,
+          values: [30, 300],
+          slide: function (event, ui) {
+            $('#amount').val('' + ui.values[0] + ' - ' + ui.values[1]);
+          },
+        });
+        $('#amount').val(
+          '' +
+            $('#slider-range').slider('values', 0) +
+            ' - ' +
+            $('#slider-range').slider('values', 1)
+        );
+      });
+    </script>
     <title>Search Page</title>
   </head>
   <body>
@@ -39,12 +65,26 @@
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
             &times;
           </a>
-          <a href="#">TIME</a>
-          <a href="#">GENRE</a>
-          <a href="#">INSTRUMENT</a>
-          <a href="#">MOOD</a>
+          <a href="#" id="menuitem">TIME</a>
+          <div class="slider">
+            <p id="slider">
+              <label for="amount">Seconds:</label>
+              <input
+                type="text"
+                id="amount"
+                readonly
+                style="color: #99cc00; font-weight: bold; width: 80px"
+              />
+            </p>
+            <div id="slider-range"></div>
+          </div>
+          <a href="#" id="menuitem">GENRE</a>
+          <a href="#" id="menuitem">INSTRUMENT</a>
+          <a href="#" id="menuitem">MOOD</a>
         </div>
-        <span onclick="openNav()"><i class="fas fa-bars"></i></span>
+        <span onclick="openNav()">
+          <i class="fas fa-bars fa-3x" id="menubutton"></i>
+        </span>
       </div>
       <div class="header-primary-nav-right ml-auto">
         <h1 id="logo">Song Database</h1>
