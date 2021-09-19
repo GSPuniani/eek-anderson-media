@@ -169,7 +169,7 @@ input {
 }
 
 #menuitem {
-  padding-bottom: 2px;
+  padding-left: 20px;
 }
 
 #slider,
@@ -180,4 +180,10 @@ input {
 #amount {
   margin: 5px;
   border-radius: 2px;
+}
+
+input.checkbox-item {
+  width: 10px;
+  height: 10px;
+  margin-left: 35px;
 }
