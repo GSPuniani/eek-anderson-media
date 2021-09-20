@@ -81,70 +81,74 @@
             </div>
           
           <!-- search parameter -->
-          <div id="mySidenav" class="sidenav hidden">
-            <a href="#" id="menuitem">TIME</a>
-            <div class="slider">
-                <p id="slider">
-                <label for="amount">Seconds:</label>
-                <input
-                    type="text"
-                    id="amount"
-                    readonly
-                    style="color: #99cc00; font-weight: bold; width: 88px"
-                />
-                </p>
+          <div id="mySidenav" class="sidenav">
+            
+              <div class="slider">
+                    <a href="#" id="menuitem">TIME</a>
+                    <p id="slider">
+                    <label for="amount">Seconds:</label>
+                    <input
+                        type="text"
+                        id="amount"
+                        readonly
+                        style="color: #99cc00; font-weight: bold; width: 88px"
+                    />
+                    </p>
+                </div>
                 <div id="slider-range"></div>
-            </div>
-            <a href="#" id="menuitem">GENRE</a>
-            <div class="menu">
-                <form id="checkbox-menu">
-                <input type="checkbox" class="checkbox-item" />
-                <label>Genre 1</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Genre 2</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Genre 3</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Genre 4</label>
-                <br />
-                </form>
-            </div>
-            <a href="#" id="menuitem">INSTRUMENT</a>
-            <div class="menu">
-                <form id="checkbox-menu">
-                <input type="checkbox" class="checkbox-item" />
-                <label>Instrument 1</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Instrument 2</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Instrument 3</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Instrument 4</label>
-                <br />
-                </form>
-            </div>
-            <a href="#" id="menuitem">MOOD</a>
-            <div class="menu">
-                <form id="checkbox-menu">
-                <input type="checkbox" class="checkbox-item" />
-                <label>Mood 1</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Mood 2</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Mood 3</label>
-                <br />
-                <input type="checkbox" class="checkbox-item" />
-                <label>Mood 4</label>
-                <br />
-                </form>
+
+                <div class="searchParams">
+                <div class="menu">
+                    <a href="#" id="menuitem">GENRE</a>
+                    <form id="checkbox-menu">
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Genre 1</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Genre 2</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Genre 3</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Genre 4</label>
+                    <br />
+                    </form>
+                </div>
+                <div class="menu">
+                    <a href="#" id="menuitem">INSTRUMENT</a>
+                    <form id="checkbox-menu">
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Instrument 1</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Instrument 2</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Instrument 3</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Instrument 4</label>
+                    <br />
+                    </form>
+                </div>
+                <div class="menu">
+                    <a href="#" id="menuitem">MOOD</a>
+                    <form id="checkbox-menu">
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Mood 1</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Mood 2</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Mood 3</label>
+                    <br />
+                    <input type="checkbox" class="checkbox-item" />
+                    <label>Mood 4</label>
+                    <br />
+                    </form>
+                </div>
             </div>
         </div>
         <!-- end of search parameter -->
@@ -155,23 +159,16 @@
     </div>
     <!--script for filter menu-->
     <script>
-    //   function openNav() {
-    //     document.getElementById('mySidenav').style.height = '500px';
-    //   }
-
-    //   function closeNav() {
-    //     document.getElementById('mySidenav').style.width = '0';
-    //     document.getElementById('main').style.marginLeft = '0';
-    //   }
       function toggleMenu(){
-            const menu = document.getElementById("mySidenav")
-            if(menu.classList.contains("hidden")){
-                menu.classList.remove("hidden")
-                menu.classList.add("visible")
-            } else {
-                menu.classList.remove("visible")
-                menu.classList.add("hidden")
-            }
+            // const menu = document.getElementById("mySidenav")
+            // if(menu.classList.contains("hidden")){
+            //     menu.classList.remove("hidden")
+            //     menu.classList.add("visible")
+            // } else {
+            //     menu.classList.remove("visible")
+            //     menu.classList.add("hidden")
+            // }
+            $("#mySidenav").slideToggle()
       }
     </script>
   </body>

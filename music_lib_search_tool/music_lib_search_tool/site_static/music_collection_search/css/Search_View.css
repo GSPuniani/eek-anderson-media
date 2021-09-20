@@ -123,8 +123,9 @@ input {
 }
 /* The side navigation menu */
 .sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 250px; /* 0 width - change this with JavaScript */
+    padding: 25px;
+  /* height: 500px; 100% Full-height */
+  width: 500px; /* 0 width - change this with JavaScript */
   /* position: fixed; Stay in place */
   /* z-index: 1; Stay on top */
   /* top: 0; Stay at the top */
@@ -132,7 +133,12 @@ input {
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   /* padding-top: 60px; Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  /* transition: 0.5s; 0.5 second transition effect to slide in the sidenav */
+}
+
+.searchParams {
+    display: flex;
+    justify-content: center;
 }
 
 /* The navigation menu links */
@@ -142,7 +148,7 @@ input {
   font-size: 25px;
   color: #818181;
   display: block;
-  transition: 0.3s;
+  /* transition: 0.3s; */
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -157,16 +163,6 @@ input {
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
-}
-
-.hidden{
-    /* display: hidden */
-    height: 0
-}
-
-.visible{
-    height: 500px
-    /* display: block */
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -186,12 +182,19 @@ input {
 }
 
 #menuitem {
-  padding-left: 20px;
 }
 
-#slider,
+.slider {
+    display: flex;
+    align-items: center;
+}
+
+#slider {
+  margin: 10px 35px 10px 35px;
+}
+
 #slider-range {
-  margin: 0 35px 10px 35px;
+    margin: 10px 35px 30px 35px;
 }
 
 #amount {
