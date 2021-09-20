@@ -131,6 +131,7 @@ input {
   /* z-index: 1; Stay on top */
   /* top: 0; Stay at the top */
   /* left: 0; */
+  display:none;
   background-color: lightgray; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   /* padding-top: 60px; Place content 60px from the top */
@@ -207,4 +208,11 @@ input.checkbox-item {
   width: 10px;
   height: 10px;
   margin-left: 35px;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    width: 100%
 }
