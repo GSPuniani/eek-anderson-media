@@ -1,18 +1,25 @@
+
+# This line may be useful later
+# instrument = Instrument.object.filter(name=<TEXT>).first()
+
+
 import pandas as pd 
 
 #Import Each Model
-from temp_models import *
+from models import *
 
-# Create a Dictionary so we can check for unique values later
-my_db = set()
-
+# array of songs to be sent back to our test view
+results = []
 
 df = pd.read_csv('master-music-table.csv')
 
-columns = ["Genre", "Instrument", "Publisher", "Master_Owner", "Mood", "Time_Signature", "Mode", "Keyword", "Production_Style", "Exclusive", "Writer_Split", "Publisher_Split"]
-columns_lower = list(map(lambda x: x.lower(), columns))
+
 
 # FOR-LOOP CODE
+
+# columns = ["Genre", "Instrument", "Publisher", "Master_Owner", "Mood", "Time_Signature", "Mode", "Keyword", "Production_Style", "Exclusive", "Writer_Split", "Publisher_Split"]
+# columns_lower = list(map(lambda x: x.lower(), columns))
+
 # for column in columns_lower:
 #   print(f"""#{column.title()}
 # {column}_string = row['{column.title()}'] \n
@@ -28,6 +35,7 @@ columns_lower = list(map(lambda x: x.lower(), columns))
 # else:
 #   {column}s_set.add({column.title()}({column}_string.strip().title()))
 #   {column}s_set.discard("")\n\n""")
+
 
 
 #reset all sets
@@ -46,16 +54,10 @@ publisher_splits_set = set()
 songs_set = set()
 
 
-# loop through each row and create each record
+# Create Individual Songs and clean CSV data
 for index, row in df.iterrows():
 
-  # for instrument in instruments_arr:
-    # add instrument STRING to the set
-    # make insturment an object (from the model)
-    # add the object to the song_instruments array
-
-
-  #Genre
+  # Genre
   genre_string = row['Genre'] 
 
   song_genres = []
@@ -72,7 +74,7 @@ for index, row in df.iterrows():
     genres_set.discard("")
 
 
-  #Instrument
+  # Instrument
   instrument_string = row['Instrument'] 
 
   song_instruments = []
@@ -89,7 +91,7 @@ for index, row in df.iterrows():
     instruments_set.discard("")
 
 
-  #Publisher
+  # Publisher
   publisher_string = row['Publisher'] 
 
   song_publishers = []
@@ -106,7 +108,7 @@ for index, row in df.iterrows():
     publishers_set.discard("")
 
 
-  #Master_Owner
+  # Master_Owner
   master_owner_string = row['Master Owner'] 
 
   song_master_owners = []
@@ -123,7 +125,7 @@ for index, row in df.iterrows():
     master_owners_set.discard("")
 
 
-  #Mood
+  # Mood
   mood_string = row['Mood'] 
 
   song_moods = []
@@ -140,7 +142,7 @@ for index, row in df.iterrows():
     moods_set.discard("")
 
 
-  #Time_Signature
+  # Time_Signature
   time_signature_string = row['Time Signature'] 
 
   song_time_signatures = []
@@ -157,7 +159,7 @@ for index, row in df.iterrows():
     time_signatures_set.discard("")
 
 
-  #Mode
+  # Mode
   mode_string = row['Mode'] 
 
   song_modes = []
@@ -174,7 +176,7 @@ for index, row in df.iterrows():
     modes_set.discard("")
 
 
-  #Keyword
+  # Keyword
   keyword_string = row['Keywords'] 
 
   song_keywords = []
@@ -191,7 +193,7 @@ for index, row in df.iterrows():
     keywords_set.discard("")
 
 
-  #Production_Style
+  # Production_Style
   production_style_string = row['Production Style'] 
 
   song_production_styles = []
@@ -208,7 +210,7 @@ for index, row in df.iterrows():
     production_styles_set.discard("")
 
 
-  #Exclusive
+  # Exclusive
   exclusive_string = row['Exclusive / Non Exclusive'] 
 
   song_exclusives = []
@@ -225,7 +227,7 @@ for index, row in df.iterrows():
     exclusives_set.discard("")
 
 
-  #Writers_Split
+  # Writers_Split
   writers_split_string = row['Writers Split'] 
 
   song_writers_splits = []
@@ -242,7 +244,7 @@ for index, row in df.iterrows():
     writer_splits_set.discard("")
 
 
-  #Publishers_Split
+  # Publishers_Split
   publishers_split_string = row['Publishers Split'] 
 
   song_publishers_splits = []
@@ -258,7 +260,7 @@ for index, row in df.iterrows():
     publisher_splits_set.add(Publisher_Split(publishers_split_string.strip().title()))
     publisher_splits_set.discard("")
 
-
+  
   # TV Usage
   has_tv_usage = row["Has TV Usage"]
 
@@ -284,20 +286,9 @@ for index, row in df.iterrows():
     is_data_complete = 1
   else:
     is_data_complete = 0
-
   
-  #finally, add song to temp collection
 
-  song = Song(title=row["Piece Title"], description=row["Description"], bpm=row["Bpm"], duration=row["Duration"], sounds_like=row["Sounds like"], tv_usage=has_tv_usage, stock_sales=has_stock_sales, data_complete=is_data_complete, overall_quality=row["Overall Quality"], music_key=row["Key"], genre=song_genres, instrument=song_instruments, publisher=publisher, owner=master_owner, mood=mood, time_signature=time_signature, mode=mode, keyword=keyword, production_style=production_style, is_exclusive=exclusive, publisher_split=publishers_split, writer_split=writers_split)
+  # Song
+  song = Song(title=row["Piece Title"], description=row["Description"], bpm=row["Bpm"], duration=row["Duration"], sounds_like=row["Sounds like"], tv_usage=has_tv_usage, stock_sales=has_stock_sales, data_complete=is_data_complete, overall_quality=int(row["Overall Quality"]), music_key=row["Key"], genre=song_genres, instrument=song_instruments, publisher=publisher, owner=master_owner, mood=mood, time_signature=time_signature, mode=mode, keyword=keyword, production_style=production_style, is_exclusive=exclusive, publisher_split=publishers_split, writer_split=writers_split)
 
-  my_db.add(song)
-
-  print(song)
-
-
-#helper function to print out each song in the temp set
-def print_db(new_db):
-  for song in new_db:
-    print(song)
-
-# print_db(my_db)
+  results.append(song)
