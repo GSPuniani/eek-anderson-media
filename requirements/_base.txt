@@ -39,6 +39,7 @@ django-qr-code==2.1.0
 elasticsearch==7.11.0
 elasticsearch-dsl==7.3.0
 html5lib==1.0.1
+pandas==1.3.3
 pilkit==2.0
 Pillow==8.1.1
 psycopg2-binary==2.8.3
