@@ -131,7 +131,7 @@ class Song(UuidBase, CreationModificationDateBase):
     mode = models.ForeignKey(Mode, blank=True, null=True, on_delete=models.DO_NOTHING)
     keyword = models.ManyToManyField(Keyword, blank=True, null=True)
     production_style = models.ManyToManyField(Production_Style, blank=True, null=True)
-    is_exclusive = models.BooleanField(default=False)
+    exclusive = models.CharField(max_length=256, blank=True, null=True)
     exclusive_contact = models.CharField(max_length=128, blank=True, null=True)
     exclusive_phone = models.CharField(max_length=128, blank=True, null=True)
     exclusive_email = models.CharField(max_length=128, blank=True, null=True)
