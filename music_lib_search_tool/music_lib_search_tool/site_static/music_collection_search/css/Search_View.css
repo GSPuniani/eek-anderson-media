@@ -93,10 +93,10 @@ input,
   align-items: center;
 }
 
-.searchBar{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px
+.searchBar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 
 input:focus {
@@ -116,7 +116,7 @@ input {
 #menubutton {
   margin: auto;
   padding-top: 10%;
-  padding-left: 20%
+  padding-left: 20%;
 }
 
 .jumbotron jumbotron-fluid {
@@ -124,14 +124,14 @@ input {
 }
 /* The side navigation menu */
 .sidenav {
-    padding: 25px;
+  padding: 25px;
   /* height: 500px; 100% Full-height */
   width: 500px; /* 0 width - change this with JavaScript */
   /* position: fixed; Stay in place */
   /* z-index: 1; Stay on top */
   /* top: 0; Stay at the top */
   /* left: 0; */
-  display:none;
+  display: none;
   background-color: lightgray; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   /* padding-top: 60px; Place content 60px from the top */
@@ -139,8 +139,10 @@ input {
 }
 
 .searchParams {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
 }
 
 /* The navigation menu links */
@@ -187,8 +189,8 @@ input {
 }
 
 .slider {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 #slider {
@@ -196,7 +198,7 @@ input {
 }
 
 #slider-range {
-    margin: 10px 35px 30px 35px;
+  margin: 10px 35px 30px 35px;
 }
 
 #amount {
@@ -211,8 +213,8 @@ input.checkbox-item {
 }
 
 #footer {
-    position: fixed;
-    bottom: 0;
-    text-align: center;
-    width: 100%
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
 }
