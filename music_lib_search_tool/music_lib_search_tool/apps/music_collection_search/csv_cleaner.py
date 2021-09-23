@@ -5,8 +5,7 @@
 import pandas as pd 
 
 #Import Each Model
-from .models import *
-
+from music_lib_search_tool.apps.music_collection_search import models
 # FOR-LOOP CODE
 
 # columns = ["Genre", "Instrument", "Publisher", "Master_Owner", "Mood", "Time_Signature", "Mode", "Keyword", "Production_Style", "Exclusive", "Writer_Split", "Publisher_Split"]
@@ -36,6 +35,7 @@ def get_song_titles():
 
   #reset all sets
   instruments_set = set()
+
   genres_set = set()
   publishers_set = set()
   master_owners_set = set()
@@ -49,11 +49,30 @@ def get_song_titles():
   publisher_splits_set = set()
   songs_set = set()
 
+  # hash tables
+  instrument_models = {} 
 
 
-  # Create Individual Songs and clean CSV data
-  for index, row in df.iterrows():
-    results.append(row["Piece Title"])
+
+  # create every item set (instrument, genres, mood etc.)
+  for index, row in df.iterrows(): #this loops through the csv
+
+    # Instrument
+    instrument_string = row['Instruments']
+    instruments = instrument_string.split(",")
+    for instrument in instruments: 
+      instruments_set.add(instrument.strip().title())
+
+    
+  
+  
+  for instrument in instruments_set:
+    m = models.Instrument(name=instrument)
+    m.save()
+    instrument_models[instrument] = m
+
+
+  # results.append(instrument_object)
     
   return results
 
