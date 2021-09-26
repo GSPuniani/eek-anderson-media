@@ -31,7 +31,7 @@ def get_song_titles():
   # array of songs to be sent back to our test view
   results = []
 
-  df = pd.read_csv('../master-music-table.csv')
+  df = pd.read_csv('../music-table-master.csv')
   df = df.fillna('') 
   #reset all sets
   genres_set = set()
