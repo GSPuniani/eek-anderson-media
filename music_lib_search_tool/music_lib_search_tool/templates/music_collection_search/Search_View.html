@@ -77,21 +77,19 @@
 
           <!-- search parameter -->
           <div id="mySidenav" class="sidenav">
-            <div class="slider">
-              <a href="#" id="menuitem">TIME</a>
-              <p id="slider">
-                <label for="amount">BPM:</label>
-                <input
-                  type="text"
-                  id="amount"
-                  readonly
-                  style="color: #99cc00; font-weight: bold; width: 88px"
-                />
-              </p>
-              <div id="slider-range"></div>
-            </div>
 
             <div class="searchParams">
+                <div class="menu slider">
+                    <a href="#" id="menuitem">BPM</a>
+                    <input
+                    type="text"
+                    id="amount"
+                    readonly
+                    style="color: #99cc00; font-weight: bold; width: 88px"
+                    />
+                    <div id="slider-range"></div>
+                  </div>
+
               <div class="menu">
                 <a href="#" id="menuitem">GENRE</a>
                 <form id="checkbox-menu">
@@ -161,7 +159,7 @@
 
     <!--search results-->
 
-    <div id="footer">© 2020 Niko Korolog</div>
+    <!-- <div id="footer">© 2020 Niko Korolog</div> -->
     <!--script for filter menu-->
     <script>
       function toggleMenu() {
