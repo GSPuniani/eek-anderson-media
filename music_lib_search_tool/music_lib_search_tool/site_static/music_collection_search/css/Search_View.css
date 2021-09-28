@@ -227,3 +227,11 @@ input.checkbox-item {
 .list-group {
   width: 100%;
 }
+
+.song-name {
+    font-size: 2rem;
+}
+
+.song-length {
+    font-size: 1rem;
+}
