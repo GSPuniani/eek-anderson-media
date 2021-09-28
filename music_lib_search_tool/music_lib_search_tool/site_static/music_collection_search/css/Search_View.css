@@ -124,30 +124,23 @@ input:focus {
 }
 /* The side navigation menu */
 .sidenav {
-  padding: 25px;
-  /* height: 500px; 100% Full-height */
-  width: 80%; 
-  max-width: 1366px;
-  position: static;
-  background-color: lightgray; /* Black*/
+  height: 100%; /* 100% Full-height */
+  position: fixed; /* Stay in place */
+  background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  /* transition: 0.5s; 0.5 second transition effect to slide in the sidenav */
-}
-
-.searchParams {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: top;
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  width: 17%;
 }
 
 /* The navigation menu links */
 .sidenav a {
-  /* padding: 8px 8px 8px 32px; */
+  padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
   color: #818181;
   display: block;
-  /* transition: 0.3s; */
+  transition: 0.3s;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -167,7 +160,8 @@ input:focus {
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left 0.5s;
-  width: 100%;
+  width: 83%;
+  float: right;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -217,8 +211,8 @@ input.checkbox-item {
 }
 
 #results {
-    width: 80%; 
-    max-width: 1366px;
+  width: 80%;
+  max-width: 1366px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -229,9 +223,9 @@ input.checkbox-item {
 }
 
 .song-name {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .song-length {
-    font-size: 1rem;
+  font-size: 1rem;
 }
