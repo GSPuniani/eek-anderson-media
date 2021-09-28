@@ -10,10 +10,6 @@
     />
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
       href="https://bootswatch.com/4/lux/bootstrap.min.css"
     />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
@@ -41,8 +37,8 @@
         $('#slider-range').slider({
           range: true,
           min: 0,
-          max: 300,
-          values: [30, 300],
+          max: 200,
+          values: [0, 200],
           slide: function (event, ui) {
             $('#amount').val('' + ui.values[0] + ' - ' + ui.values[1]);
           },
@@ -60,8 +56,7 @@
   <body>
     <!--navbar-->
     <div class="header-primary-nav">
-      <div class="header-primary-nav-left">
-      </div>
+      <div class="header-primary-nav-left"></div>
       <div class="header-primary-nav-right ml-auto">
         <h1 id="logo">Song Database</h1>
       </div>
@@ -70,110 +65,115 @@
       <!--main search bar-->
       <div class="jumbotron jumbotron-fluid" id="search-main">
         <div class="container">
+          <div class="searchBar">
+            <input type="search" id="search" placeholder="Search Song..." />
+            <button id="button" onclick="searchLink()">
+              <i class="fas fa-search"></i>
+            </button>
+            <!--<span onclick="toggleMenu()">
+              <i class="fas fa-bars fa-3x" id="menubutton"></i>
+            </span>-->
+          </div>
 
-            <div class="searchBar">
-                <input type="search" id="search" placeholder="Search Song..." />
-                <button id="button" onclick="searchLink()">
-                  <i class="fas fa-search"></i>
-                </button>
-                <span onclick="toggleMenu()">
-                    <i class="fas fa-bars fa-3x" id="menubutton"></i>
-                </span>
-            </div>
-          
           <!-- search parameter -->
           <div id="mySidenav" class="sidenav">
-            
-              <div class="slider">
-                    <a href="#" id="menuitem">TIME</a>
-                    <p id="slider">
-                    <label for="amount">Seconds:</label>
-                    <input
-                        type="text"
-                        id="amount"
-                        readonly
-                        style="color: #99cc00; font-weight: bold; width: 88px"
-                    />
-                    </p>
-                </div>
-                <div id="slider-range"></div>
-
-                <div class="searchParams">
-                <div class="menu">
-                    <a href="#" id="menuitem">GENRE</a>
-                    <form id="checkbox-menu">
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Genre 1</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Genre 2</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Genre 3</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Genre 4</label>
-                    <br />
-                    </form>
-                </div>
-                <div class="menu">
-                    <a href="#" id="menuitem">INSTRUMENT</a>
-                    <form id="checkbox-menu">
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Instrument 1</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Instrument 2</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Instrument 3</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Instrument 4</label>
-                    <br />
-                    </form>
-                </div>
-                <div class="menu">
-                    <a href="#" id="menuitem">MOOD</a>
-                    <form id="checkbox-menu">
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Mood 1</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Mood 2</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Mood 3</label>
-                    <br />
-                    <input type="checkbox" class="checkbox-item" />
-                    <label>Mood 4</label>
-                    <br />
-                    </form>
-                </div>
+            <div class="slider">
+              <a href="#" id="menuitem">TIME</a>
+              <p id="slider">
+                <label for="amount">BPM:</label>
+                <input
+                  type="text"
+                  id="amount"
+                  readonly
+                  style="color: #99cc00; font-weight: bold; width: 88px"
+                />
+              </p>
+              <div id="slider-range"></div>
             </div>
-        </div>
-        <!-- end of search parameter -->
 
-        
+            <div class="searchParams">
+              <div class="menu">
+                <a href="#" id="menuitem">GENRE</a>
+                <form id="checkbox-menu">
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Genre 1</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Genre 2</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Genre 3</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Genre 4</label>
+                  <br />
+                </form>
+              </div>
+              <div class="menu">
+                <a href="#" id="menuitem">INSTRUMENT</a>
+                <form id="checkbox-menu">
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Instrument 1</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Instrument 2</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Instrument 3</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Instrument 4</label>
+                  <br />
+                </form>
+              </div>
+              <div class="menu">
+                <a href="#" id="menuitem">MOOD</a>
+                <form id="checkbox-menu">
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Mood 1</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Mood 2</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Mood 3</label>
+                  <br />
+                  <input type="checkbox" class="checkbox-item" />
+                  <label>Mood 4</label>
+                  <br />
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- end of search parameter -->
+          <div id="results">
+            <ul class="list-group">
+              <li class="list-group-item">Test</li>
+              <li class="list-group-item">Search Result</li>
+              <li class="list-group-item">Result</li>
+              <li class="list-group-item">Another Search</li>
+              <li class="list-group-item">Last one</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
 
-    <div id="footer">
-        © 2020 Niko Korolog
-    </div>
+    <!--search results-->
+
+    <!--<div id="footer">© 2020 Niko Korolog</div>
     <!--script for filter menu-->
     <script>
-      function toggleMenu(){
-            // const menu = document.getElementById("mySidenav")
-            // if(menu.classList.contains("hidden")){
-            //     menu.classList.remove("hidden")
-            //     menu.classList.add("visible")
-            // } else {
-            //     menu.classList.remove("visible")
-            //     menu.classList.add("hidden")
-            // }
-            $("#mySidenav").slideToggle()
+      function toggleMenu() {
+        // const menu = document.getElementById("mySidenav")
+        // if(menu.classList.contains("hidden")){
+        //     menu.classList.remove("hidden")
+        //     menu.classList.add("visible")
+        // } else {
+        //     menu.classList.remove("visible")
+        //     menu.classList.add("hidden")
+        // }
+        $('#mySidenav').slideToggle();
       }
     </script>
   </body>
