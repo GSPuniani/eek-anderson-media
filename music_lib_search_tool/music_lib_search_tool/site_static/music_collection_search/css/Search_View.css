@@ -103,9 +103,9 @@ input:focus {
   outline: none;
 }
 
-input {
+#search {
   border-radius: 6px 0 0 6px;
-  width: 25em;
+  width: 30em;
 }
 
 #button {
@@ -126,8 +126,8 @@ input {
 .sidenav {
   padding: 25px;
   /* height: 500px; 100% Full-height */
-  width: 80%; /* 0 width - change this with JavaScript */
-  max-width: 1000px;
+  width: 80%; 
+  max-width: 1366px;
   position: static;
   background-color: lightgray; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
@@ -194,7 +194,7 @@ input {
 }
 
 #slider-range {
-  margin-top: 10px;
+  margin-top: 15px;
   width: 100%;
 }
 
@@ -217,7 +217,8 @@ input.checkbox-item {
 }
 
 #results {
-  width: 100%;
+    width: 80%; 
+    max-width: 1366px;
   display: flex;
   justify-content: center;
   align-items: center;
