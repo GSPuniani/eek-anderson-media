@@ -1,4 +1,13 @@
-select DISTINCT x.id FROM (
+CREATE OR REPLACE FUNCTION public.get_song_id_for_keyword(k TEXT)
+RETURNS int[]
+LANGUAGE plpgsql
+AS $$
+declare
+k TEXT;
+begin
+    return
+    array(
+    select DISTINCT x.id FROM (
     SELECT s.id
         From (SELECT 
         		song.id,
@@ -17,13 +26,13 @@ select DISTINCT x.id FROM (
         JOIN mode
         ON song.mode_id=mode.id
         ) s
-    WHERE ( (s.title LIKE '%' + %s + '%') 
-    OR (s.description LIKE '%' + %s + '%') 
-    OR (s.sounds_like LIKE '%' + %s + '%')
-    OR (s.music_key LIKE '%' + %s + '%')
-    OR (s.time_signature LIKE '%' + %s + '%') 
-    OR (s.mode LIKE '%' + %s + '%')
-    OR (s.owner LIKE '%' + %s + '%') 
+    WHERE ( (s.title LIKE concat('%'::text, k, '%'::text)) 
+    OR (s.description LIKE concat('%'::text, k, '%'::text)) 
+    OR (s.sounds_like LIKE concat('%'::text, k, '%'::text))
+    OR (s.music_key LIKE concat('%'::text, k, '%'::text))
+    OR (s.time_signature LIKE concat('%'::text, k, '%'::text)) 
+    OR (s.mode LIKE concat('%'::text, k, '%'::text))
+    OR (s.owner LIKE concat('%'::text, k, '%'::text)) 
     )
     UNION
     SELECT song_id
@@ -31,7 +40,7 @@ select DISTINCT x.id FROM (
         WHERE genre_id in (
         SELECT id
         FROM genre
-            WHERE ( (name LIKE '%' + %s + '%') 
+            WHERE ( (name LIKE concat('%'::text, k, '%'::text)) 
             )
         ) 
     UNION
@@ -40,7 +49,7 @@ select DISTINCT x.id FROM (
         WHERE instrument_id in (
         SELECT id
         FROM instrument
-            WHERE ( (name LIKE '%' + %s + '%') 
+            WHERE ( (name LIKE concat('%'::text, k, '%'::text)) 
             )
         ) 
     UNION
@@ -49,7 +58,7 @@ select DISTINCT x.id FROM (
         WHERE publisher_id in (
         SELECT id
         FROM publisher
-            WHERE ( (name LIKE '%' + %s + '%') 
+            WHERE ( (name LIKE concat('%'::text, k, '%'::text)) 
             )
         ) 
     UNION
@@ -58,7 +67,7 @@ select DISTINCT x.id FROM (
         WHERE mood_id in (
         SELECT id
         FROM mood
-            WHERE ( (name LIKE '%' + %s + '%') 
+            WHERE ( (name LIKE concat('%'::text, k, '%'::text)) 
             )
         ) 
     UNION
@@ -67,7 +76,7 @@ select DISTINCT x.id FROM (
         WHERE mood_id in (
         SELECT id
         FROM mood
-            WHERE ( (name LIKE '%' + %s + '%') 
+            WHERE ( (name LIKE concat('%'::text, k, '%'::text)) 
             )
         ) 
     UNION
@@ -76,7 +85,7 @@ select DISTINCT x.id FROM (
         WHERE keyword_id in (
         SELECT id
         FROM keyword
-            WHERE ( (name LIKE '%' + %s + '%') 
+            WHERE ( (name LIKE concat('%'::text, k, '%'::text)) 
             )
         ) 
     UNION
@@ -85,59 +94,11 @@ select DISTINCT x.id FROM (
         WHERE production_style_id in (
         SELECT id
         FROM production_style
-            WHERE ( (name LIKE '%' + %s + '%') 
+            WHERE ( (name LIKE concat('%'::text, k, '%'::text)) 
             )
         ) 
-    ) x               
-
-CREATE OR REPLACE FUNCTION public.search_keywords_genre(keywords TEXT[])
-RETURNS BIGINT[]
-LANGUAGE plpgsql
-AS $$
-declare
-keyword TEXT;
-song_id_list BIGINT[];
-begin
-	FOR keyword IN keywords
-    LOOP
-    array_cat(song_id_list,
-        SELECT song_id
-        FROM song_instrument
-        WHERE instrument_id in (
-        SELECT id
-        FROM instrument
-            WHERE ( (name LIKE '%' + keyword + '%')  
-            )
-        ) 
-    )
-    END LOOP;
-    return song_id_list;
-end;
-$$
-;
-
-CREATE OR REPLACE FUNCTION public.search_keywords_genre(keywords TEXT[])
-RETURNS BIGINT[]
-LANGUAGE plpgsql
-AS $$
-declare
-keyword TEXT;
-song_id_list BIGINT[];
-begin
-	FOR keyword IN keywords
-    LOOP
-    array_cat(song_id_list,
-        SELECT song_id
-        FROM song_genre
-        WHERE genre_id in (
-        SELECT id
-        FROM genre
-            WHERE ( (name LIKE '%' + keyword + '%') 
-            )
-        ) 
-    )
-    END LOOP;
-    return song_id_list;
+    ) x
+   );
 end;
 $$
 ;

@@ -1,6 +1,11 @@
+import json
 from django.shortcuts import render
 from django.views import View
 from django.db import connection
+from django.http import JsonResponse
+
+
+from music_lib_search_tool.apps.music_collection_search.models import Song
 
 def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
@@ -23,6 +28,25 @@ class Search_View(View):
         context = {}
         return render(request, 'music_collection_search/Search_View.html', context)
 
+class Search_Results_View(View):
+
     def get(self, request):
-        context = {}
-        return render(request, 'music_collection_search/Search_View.html', context)
+        query = request.GET.dict()['q']
+        keywords = query.split(' ')
+        song_id_set = set()
+
+        sql = '''
+        select search_keywords as id from search_keywords(%s)
+        '''
+        song_sql_result = run_db_query(sql, [keywords])
+        print(song_sql_result[0]['id'])
+        id_list = song_sql_result[0]['id']
+        song_list = Song.objects.filter(pk__in=id_list).all()
+        
+        data = {
+            'num':len(song_list),
+            'keywords':keywords,
+            'songs': [song.to_dict() for song in song_list]
+        }
+
+        return JsonResponse(json.dumps(data), status=200, safe=False)
