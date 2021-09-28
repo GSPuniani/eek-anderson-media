@@ -72,7 +72,7 @@
 
 #search-main {
   height: 400px;
-  padding-top: 200px;
+  padding-top: 100px;
   padding-bottom: 200px;
   background-color: white;
   width: 100%;
@@ -126,15 +126,11 @@ input {
 .sidenav {
   padding: 25px;
   /* height: 500px; 100% Full-height */
-  width: 500px; /* 0 width - change this with JavaScript */
-  /* position: fixed; Stay in place */
-  /* z-index: 1; Stay on top */
-  /* top: 0; Stay at the top */
-  /* left: 0; */
-  display: none;
+  width: 80%; /* 0 width - change this with JavaScript */
+  max-width: 1000px;
+  position: static;
   background-color: lightgray; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  /* padding-top: 60px; Place content 60px from the top */
   /* transition: 0.5s; 0.5 second transition effect to slide in the sidenav */
 }
 
@@ -199,6 +195,7 @@ input {
 
 #slider-range {
   margin: 10px 35px 30px 35px;
+  width: 100px;
 }
 
 #amount {
@@ -213,8 +210,18 @@ input.checkbox-item {
 }
 
 #footer {
-  position: fixed;
   bottom: 0;
   text-align: center;
+  width: 100%;
+}
+
+#results {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 10px 0;
+}
+.list-group {
   width: 100%;
 }
