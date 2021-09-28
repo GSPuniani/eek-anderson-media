@@ -56,7 +56,7 @@ class Time_Signature(UuidBase, CreationModificationDateBase):
 
 class Mode(UuidBase, CreationModificationDateBase):
 
-    name = models.CharField(max_length=8)
+    name = models.CharField(max_length=16)
 
     class Meta:
         managed = True

@@ -31,7 +31,7 @@ def get_song_titles():
   # array of songs to be sent back to our test view
   results = []
 
-  df = pd.read_csv('../music-table-master.csv')
+  df = pd.read_csv('music_lib_search_tool/apps/music_collection_search/source_data/music-data.csv')
   df = df.fillna('') 
   #reset all sets
   genres_set = set()
@@ -47,7 +47,7 @@ def get_song_titles():
   # hash tables
   genre_models = {} 
   instrument_models = {} 
-  publisher_models = {} 
+  publisher_models = {}
   master_owner_models = {} 
   mood_models = {} 
   time_signature_models = {} 
@@ -170,10 +170,10 @@ def get_song_titles():
     genre_models_list = []
     instrument_models_list = []
     publisher_models_list = []
-    master_owner_models_list = [] 
+    master_owner_model = None
     mood_models_list = []
-    time_signature_model = [] 
-    mode_model = [] 
+    time_signature_model = None
+    mode_model = None
     keyword_models_list = []
     production_style_models_list = []    
 
@@ -195,10 +195,10 @@ def get_song_titles():
       publisher_models_list.append(publisher_models[publisher.strip().title()])
     #Master_Owner
     master_owner_string = row['Master Owner']
-    master_owners = master_owner_string.split(",")
-    for master_owner in master_owners:
-      master_owner_models_list.append(master_owner_models[master_owner.strip().title()])
-    
+    master_owner_model = master_owner_models[master_owner_string.strip().title()]
+
+
+
     # Mood
     mood_string = row['Mood']
     moods = mood_string.split(",")
@@ -206,7 +206,7 @@ def get_song_titles():
       mood_models_list.append(mood_models[mood.strip().title()])
     
     # Publisher/Library
-    time_signature_string = row['Publisher/Library']
+    time_signature_string = row['Time Signature']
     time_signature_model = time_signature_models[time_signature_string.strip().title()]
 
     # Mode
@@ -217,7 +217,7 @@ def get_song_titles():
     keyword_string = row['Keywords']
     keywords = keyword_string.split(",")
     for keyword in keywords:
-      keyword_models_list.append(keyword_models[mood.strip().title()])
+      keyword_models_list.append(keyword_models[keyword.strip().title()])
     
 
     # Production Style
@@ -255,29 +255,34 @@ def get_song_titles():
       is_data_complete = 0
 
     # Song
-    song = Song(title=row["Piece Title"],
+
+    song = models.Song(title=row["Piece Title"],
       description=row["Description"],
-      bpm=row["Bpm"],
-      duration=row["Duration"],
+      bpm=int(float(row["Bpm"])) if row['Bpm'] != '' and row['Bpm'] != '-' else None,
+      duration=row["Duration"] if row['Duration'] != '' else None,
       sounds_like=row["Sounds like"],
       tv_usage=has_tv_usage,
       stock_sales=has_stock_sales,
       data_complete=is_data_complete,
-      overall_quality=int(row["Overall Quality"]),
+      overall_quality=int(row["Overall Quality"]) if row['Overall Quality'] != '' else None,
       music_key=row["Key"],
-      genre=genre_models_list, 
-      instrument=instrument_models_list,
-      publisher=publisher_models_list,
-      owner=master_owner_models_list,
-      mood=mood_models_list,
+      owner=master_owner_model,
       time_signature=time_signature_model,
       mode=mode_model,
-      keyword=keyword_models_list,
-      production_style=production_style_models_list,
       exclusive=row['Exclusive / Non Exclusive'],
       publisher_split=row['Publishers Split'],
       writer_split=row['Writers Split']
       )
+
+    song.save()
+
+
+    song.genre.set(genre_models_list)
+    song.instrument.set(instrument_models_list)
+    song.publisher.set(publisher_models_list)
+    song.mood.set(mood_models_list)
+    song.keyword.set(keyword_models_list)
+    song.production_style.set(production_style_models_list)
 
     song.save()
 
