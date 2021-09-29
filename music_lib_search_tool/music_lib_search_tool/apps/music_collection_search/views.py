@@ -30,17 +30,19 @@ class Search_View(View):
 
 class Search_Results_View(View):
 
-    def get(self, request):
+    def get(self, request, offset):
         query = request.GET.dict()['q']
         keywords = query.split(' ')
         song_id_set = set()
+        offset=offset*10
 
         sql = '''
-        select search_keywords as id from search_keywords(%s)
+        select search_keywords as id from search_keywords(%s) OFFSET %s limit 10
         '''
-        song_sql_result = run_db_query(sql, [keywords])
+        song_sql_result = run_db_query(sql, [keywords, offset])
         print(song_sql_result[0]['id'])
-        id_list = song_sql_result[0]['id']
+        id_list = song_sql_result[0]['id'][offset:offset+10]
+        print('Get Song Objects')
         song_list = Song.objects.filter(pk__in=id_list).all()
         
         data = {

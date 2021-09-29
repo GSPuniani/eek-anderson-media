@@ -27,6 +27,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("js-settings/", core_views.js_settings, name="js_settings"),
     path("", music_collection_search_views.Search_View.as_view(), name="Search_View"),
-    path("api/search", music_collection_search_views.Search_Results_View.as_view(), name="Search_Api")
+    path("api/search/<int:offset>", music_collection_search_views.Search_Results_View.as_view(), name="Search_Api")
 ]
 
