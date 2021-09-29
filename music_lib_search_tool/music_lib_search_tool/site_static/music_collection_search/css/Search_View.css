@@ -72,9 +72,10 @@
 
 #search-main {
   height: 400px;
-  padding-top: 200px;
+  padding-top: 100px;
   padding-bottom: 200px;
-  background-color: rgb(228, 228, 228);
+  background-color: white;
+  width: 100%;
 }
 
 input,
@@ -87,19 +88,144 @@ input,
 
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+.searchBar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 
 input:focus {
   outline: none;
 }
 
-input {
+#search {
   border-radius: 6px 0 0 6px;
-  width: 25em;
+  width: 30em;
 }
 
 #button {
   border-radius: 0 6px 6px 0;
   width: 60px;
+}
+
+#menubutton {
+  margin: auto;
+  padding-top: 10%;
+  padding-left: 20%;
+}
+
+.jumbotron jumbotron-fluid {
+  width: 100%;
+}
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  position: fixed; /* Stay in place */
+  background-color: rgb(31, 31, 31); /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  width: 17%;
+  padding: 20px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left 0.5s;
+  width: 83%;
+  float: right;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+#menuitem {
+}
+
+.slider {
+  /* display: flex; */
+  /* align-items: top; */
+  /* text-align: center; */
+}
+
+#slider {
+  /* margin: 10px 35px 10px 35px; */
+}
+
+#slider-range {
+  margin-top: 15px;
+  width: 100%;
+}
+
+#amount {
+  /* margin: 5px; */
+  /* margin-left: 32px; */
+  border-radius: 2px;
+}
+
+input.checkbox-item {
+  width: 10px;
+  height: 10px;
+  /* margin-left: 35px; */
+}
+
+#footer {
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+}
+
+#results {
+  width: 80%;
+  max-width: 1366px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 10px 0;
+}
+.list-group {
+  width: 100%;
+}
+
+.song-name {
+  font-size: 2rem;
+}
+
+.song-length {
+  font-size: 1rem;
 }
