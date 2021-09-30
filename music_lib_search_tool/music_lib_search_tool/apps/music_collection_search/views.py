@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render
 from django.views import View
+from music_lib_search_tool.apps.music_collection_search import csv_cleaner
 from django.db import connection
 from django.http import JsonResponse
 
@@ -28,6 +29,12 @@ class Search_View(View):
         context = {}
         return render(request, 'music_collection_search/Search_View.html', context)
 
+class Database_View(View):
+
+    def get(self, request):
+        context = {"payload": csv_cleaner.get_song_titles()}
+        return render(request, 'music_collection_search/Database_View.html', context)
+      
 class Search_Results_View(View):
 
     def get(self, request, offset):
@@ -52,3 +59,4 @@ class Search_Results_View(View):
         }
 
         return JsonResponse(json.dumps(data), status=200, safe=False)
+
