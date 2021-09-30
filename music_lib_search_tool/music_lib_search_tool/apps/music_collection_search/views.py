@@ -1,4 +1,5 @@
 import json
+from music_lib_search_tool.music_lib_search_tool.apps.music_collection_search.models import Genre, Instrument, Mood
 from django.shortcuts import render
 from django.views import View
 from music_lib_search_tool.apps.music_collection_search import csv_cleaner
@@ -40,7 +41,9 @@ class Search_Results_View(View):
     def get(self, request, offset):
         query = request.GET.dict()['q']
         keywords = query.split(' ')
-        song_id_set = set()
+        genres_id_list = request.GET.dict()['genres']
+        moods_id_list = request.GET.dict()['moods']
+        instruments_id_list = request.GET.dict()['instruments']
         offset=offset*10
 
         sql = '''
@@ -50,7 +53,14 @@ class Search_Results_View(View):
         print(song_sql_result[0]['id'])
         id_list = song_sql_result[0]['id'][offset:offset+10]
         print('Get Song Objects')
-        song_list = Song.objects.filter(pk__in=id_list).all()
+        
+        genre_list = Genre.objects.filter(pk__in=genres_id_list).all()
+        mood_list = Mood.objects.filter(pk__in=moods_id_list).all()
+        instrument_list = Instrument.objects.filter(pk__in=instruments_id_list).all()
+        song_list = Song.objects.filter(pk__in=id_list, 
+            genre__in=genre_list, 
+            mood__in=mood_list, 
+            instrument__in=instrument_list).all()
         
         data = {
             'num':len(song_list),
