@@ -18,12 +18,6 @@ from django.conf import settings
 from imagekit.models import ImageSpecField
 from pilkit.processors import ResizeToFill
 
-def upload_to_firm_user(instance, filename):
-    now = timezone.now()
-    base, extension = os.path.splitext(filename)
-    extension = extension.lower()
-    return f"firm_user/deployment_files/{now:%Y/%m}/{instance.uuid}{extension}"
-
 class UserManager(BaseUserManager):
 
     use_in_migrations = True

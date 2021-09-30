@@ -13,6 +13,11 @@ class Genre(UuidBase, CreationModificationDateBase):
     class Meta:
         managed = True
         db_table = 'genre'
+    
+    def to_dict(self):
+        return {
+            'name':self.name
+        }
 
 class Instrument(UuidBase, CreationModificationDateBase):
 
@@ -21,6 +26,11 @@ class Instrument(UuidBase, CreationModificationDateBase):
     class Meta:
         managed = True
         db_table = 'instrument'
+
+    def to_dict(self):
+        return {
+            'name':self.name
+        }
 
 class Publisher(UuidBase, CreationModificationDateBase):
 
@@ -46,6 +56,11 @@ class Mood(UuidBase, CreationModificationDateBase):
         managed = True
         db_table = 'mood'
 
+    def to_dict(self):
+        return {
+            'name':self.name
+        }
+
 class Time_Signature(UuidBase, CreationModificationDateBase):
 
     name = models.CharField(max_length=8)
@@ -53,6 +68,11 @@ class Time_Signature(UuidBase, CreationModificationDateBase):
     class Meta:
         managed = True
         db_table = 'time_signature'
+
+    def to_dict(self):
+        return {
+            'name':self.name
+        }
 
 class Mode(UuidBase, CreationModificationDateBase):
 
@@ -142,3 +162,18 @@ class Song(UuidBase, CreationModificationDateBase):
     class Meta:
         managed = True
         db_table = 'song'
+
+    def to_dict(self):
+        return {
+           'title':self.title,
+           'description':self.description,
+           'duration':str(self.duration),
+           'key':self.music_key,
+           'time_signature':self.time_signature.to_dict(),
+           'sounds_like':self.sounds_like,
+           'bpm':self.bpm,
+           'overall_quality':self.overall_quality,
+           'genre':[g.to_dict() for g in self.genre.all()],
+           'instrument':[i.to_dict() for i in self.instrument.all()],
+           'mood':[m.to_dict() for m in self.mood.all()]
+        }
