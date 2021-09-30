@@ -134,7 +134,6 @@ class Song(UuidBase, CreationModificationDateBase):
         db_table = 'song'
 
     def to_dict(self):
-        print(f'Create {self.title} Dict Format')
         return {
            'title':self.title,
            'description':self.description,
