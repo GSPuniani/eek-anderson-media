@@ -37,9 +37,9 @@ class Search_Results_View(View):
         offset=offset*10
 
         sql = '''
-        select search_keywords as id from search_keywords(%s) OFFSET %s limit 10
+        select search_keywords as id from search_keywords(%s) limit 10
         '''
-        song_sql_result = run_db_query(sql, [keywords, offset])
+        song_sql_result = run_db_query(sql, [keywords])
         print(song_sql_result[0]['id'])
         id_list = song_sql_result[0]['id'][offset:offset+10]
         print('Get Song Objects')
