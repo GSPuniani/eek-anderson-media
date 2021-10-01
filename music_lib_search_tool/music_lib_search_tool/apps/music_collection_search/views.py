@@ -1,5 +1,5 @@
 import json
-from music_lib_search_tool.music_lib_search_tool.apps.music_collection_search.models import Genre, Instrument, Mood
+from music_lib_search_tool.apps.music_collection_search.models import Genre, Instrument, Mood
 from django.shortcuts import render
 from django.views import View
 from music_lib_search_tool.apps.music_collection_search import csv_cleaner
