@@ -218,6 +218,7 @@ input.checkbox-item {
   align-items: center;
   margin: 10px 0 10px 0;
 }
+
 .song-result {
     display: flex
 }
@@ -259,3 +260,4 @@ input.checkbox-item {
 .upside-down {
     transform: rotate(180deg);
 }
+
