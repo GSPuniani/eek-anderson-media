@@ -149,64 +149,73 @@
           <div id="results">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <div class="song-name">
+                  <div class="song-title">
                         Song Name
                         <span class="song-length">
                             3:20
                         </span>
+                        <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
                     </div>
-                    <div class="music-context">
-                        <span class="music-mode">
-                            Phrygian
-                        </span>
-                        ,
-                        <span class="time-sig">
-                            1/2
-                        </span>
-                    </div>
-                    <div class="description">
-                        <span>Description: </span>
-                        This song is for a movie.
-                    </div>
-                    <div class="soundalike">
-                        <span>Sound alike: </span>
-                        Video game water level
+                    <div class="song-toggled-details">
+                        <div class="music-context">
+                            <span class="music-mode">
+                                Phrygian
+                            </span>
+                            ,
+                            <span class="time-sig">
+                                1/2
+                            </span>
+                        </div>
+                        <div class="description">
+                            <span>Description: </span>
+                            This song is for a movie.
+                        </div>
+                        <div class="soundalike">
+                            <span>Sound alike: </span>
+                            Video game water level
+                        </div>
                     </div>
                 </li>
                 
                 <li class="list-group-item">
-                    <div class="song-name">
+                    <div class="song-title">
                         Song Name 2
                         <span class="song-length">
                             4:00
                         </span>
+                        <i class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></i>
                     </div>
-                    <div class="music-context">
-                        <span class="music-mode">
-                            Phrygian
-                        </span>
-                        ,
-                        <span class="time-sig">
-                            3/4
-                        </span>
-                    </div>
-                    <div class="description">
-                        <span>Description: </span>
-                        This song is for a game.
-                    </div>
-                    <div class="soundalike">
-                        <span>Sound alike: </span>
-                        Video game fire level
+                    
+                    <div class="song-toggled-details">
+                        <div class="music-context">
+                            <span class="music-mode">
+                                Phrygian
+                            </span>
+                            ,
+                            <span class="time-sig">
+                                3/4
+                            </span>
+                        </div>
+                        <div class="description">
+                            <span>Description: </span>
+                            This song is for a game.
+                        </div>
+                        <div class="soundalike">
+                            <span>Sound alike: </span>
+                            Video game fire level
+                        </div>
                     </div>
                 </li>
-
+                    
                 <li class="list-group-item">
-                    <div class="song-name">
+                    <div class="song-title">
                         Song Name 3
-                        <span class="song-length">
-                            3:20
-                        </span>
-                    </div>
+                    <span class="song-length">
+                        3:20
+                    </span>
+                    <i class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></i>
+                </div>
+                <div class="song-toggled-details">
                     <div class="music-context">
                         <span class="music-mode">
                             Phrygian
@@ -224,8 +233,8 @@
                         <span>Sound alike: </span>
                         Video game wind level
                     </div>
-                </li>
-
+                </div>
+            </li>
             </ul>
           </div>
         </div>
@@ -237,7 +246,7 @@
     <!-- <div id="footer">© 2020 Niko Korolog</div> -->
     <!--script for filter menu-->
     <script>
-      function toggleSong() {
+      function toggleDetail(el) {
         // const menu = document.getElementById("mySidenav")
         // if(menu.classList.contains("hidden")){
         //     menu.classList.remove("hidden")
@@ -246,7 +255,12 @@
         //     menu.classList.remove("visible")
         //     menu.classList.add("hidden")
         // }
-        $('#mySidenav').slideToggle();
+            $(el).parent().parent().children('.song-toggled-details').slideToggle();
+            if ($(el).hasClass('upside-down')) {
+                $(el).removeClass('upside-down');
+            } else {
+                $(el).addClass('upside-down');
+            }
       }
     </script>
   </body>

@@ -218,14 +218,46 @@ input.checkbox-item {
   align-items: center;
   margin: 10px 0 10px 0;
 }
+
+.song-result {
+    display: flex
+}
+
 .list-group {
   width: 100%;
 }
 
-.song-name {
-  font-size: 2rem;
+.song-title {
+    /* display: flex; */
+    font-size: 2rem;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 2rem;
 }
 
 .song-length {
   font-size: 1rem;
 }
+
+.song-toggle {
+    float: right;
+}
+
+.song-toggle:hover {
+    cursor: pointer;
+    color: darkgray;
+    transition: transform 0.2s ease-out;
+}
+
+.song-toggle:active {
+    color: black;
+}
+
+.song-toggled-details {
+    display: none;
+}
+
+.upside-down {
+    transform: rotate(180deg);
+}
+
