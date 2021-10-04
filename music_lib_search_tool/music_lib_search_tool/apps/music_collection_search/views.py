@@ -27,7 +27,8 @@ def run_db_query(query, args):
 class Search_View(View):
 
     def get(self, request):
-        context = {"test_data" : ["Test 1", "Test 2", "Test 3"]} # When the Search_View is called, DTL will make 3 identical songs
+        q1 = Song.objects.all()[:15]
+        context = {"test_data" : q1} # When the Search_View is called, DTL will make 3 identical songs
         return render(request, 'music_collection_search/Search_View.html', context)
 
 class Database_View(View):

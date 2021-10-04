@@ -152,36 +152,36 @@
             <ul class="list-group">
 
               {% for i in test_data %}
+
               <li class="list-group-item">
                 <div class="song-title">
-                      Song Name
+                      {{ i.title }}
                       <span class="song-length">
-                          3:20
+                          {{ i.duration }}
                       </span>
                       <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
                   </div>
                   <div class="song-toggled-details">
                       <div class="music-context">
                           <span class="music-mode">
-                              Phrygian
+                              {{ i.mode.name }}
                           </span>
                           ,
                           <span class="time-sig">
-                              1/2
+                              {{ i.time_signature.name }}
                           </span>
                       </div>
                       <div class="description">
                           <span>Description: </span>
-                          This song is for a movie.
+                          {{ i.description }}
                       </div>
                       <div class="soundalike">
                           <span>Sound alike: </span>
-                          Video game water level
+                          {{ i.sounds_like }}
                       </div>
                   </div>
               </li>
               {% endfor %}
-
             </ul>
           </div>
           <!-- End of Song Data -->
