@@ -28,6 +28,9 @@ class Search_View(View):
 
     def get(self, request):
         context = {}
+        context['genres'] = Genre.objects.all()
+        context['instruments'] = Instrument.objects.all()
+        context['moods'] = Mood.objects.all()
         return render(request, 'music_collection_search/Search_View.html', context)
 
 class Database_View(View):
@@ -41,32 +44,35 @@ class Search_Results_View(View):
     def get(self, request, offset):
         query = request.GET.dict()['q']
         keywords = query.split(' ')
-        genres_id_list = request.GET.dict()['genres']
-        moods_id_list = request.GET.dict()['moods']
-        instruments_id_list = request.GET.dict()['instruments']
+        genres_id_list = [int(x) for x in request.GET.dict()['genres'].strip('][').split(',')]
+        moods_id_list = [int(x) for x in request.GET.dict()['moods'].strip('][').split(',')]
+        instruments_id_list = [int(x) for x in request.GET.dict()['instruments'].strip('][').split(',')]
+        bpm_low = int(request.GET.dict()['bpm_low'])
+        bpm_high = int(request.GET.dict()['bpm_high'])
         offset=offset*10
 
         sql = '''
         select search_keywords as id from search_keywords(%s) limit 10
         '''
+
         song_sql_result = run_db_query(sql, [keywords])
-        print(song_sql_result[0]['id'])
-        id_list = song_sql_result[0]['id'][offset:offset+10]
-        print('Get Song Objects')
-        
+        id_list = set(song_sql_result[0]['id'])
+
         genre_list = Genre.objects.filter(pk__in=genres_id_list).all()
         mood_list = Mood.objects.filter(pk__in=moods_id_list).all()
         instrument_list = Instrument.objects.filter(pk__in=instruments_id_list).all()
-        song_list = Song.objects.filter(pk__in=id_list, 
-            genre__in=genre_list, 
-            mood__in=mood_list, 
-            instrument__in=instrument_list).all()
-        
+
+        song_list = Song.objects.filter(pk__in=id_list, bpm__lte=bpm_high, bpm__gte=bpm_low)\
+            .filter(genre__in=genre_list, mood__in=mood_list, instrument__in=instrument_list)\
+            .all()
+
+        song_list = list(set(song_list))[offset:offset+10]
+        print('Filter Applied')
+        print(song_list)
         data = {
             'num':len(song_list),
             'keywords':keywords,
             'songs': [song.to_dict() for song in song_list]
         }
-
         return JsonResponse(json.dumps(data), status=200, safe=False)
 
