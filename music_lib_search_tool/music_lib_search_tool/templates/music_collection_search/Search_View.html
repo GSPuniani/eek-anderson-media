@@ -61,6 +61,8 @@
       </div>
       <div class="header-primary-nav-left"></div>
       <div id="mySidenav" class="sidenav">
+
+        <!-- BPM Filter -->
         <a href="#" id="menuitem">BPM</a>
         <div class="slider">
           <p id="slider">
@@ -74,57 +76,40 @@
           </p>
           <div id="slider-range"></div>
         </div>
+
+        <!-- Genre Filters -->
         <a href="#" id="menuitem">GENRE</a>
         <div class="menu">
           <form id="checkbox-menu">
-            <input type="checkbox" class="checkbox-item" />
-            <label>Genre 1</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Genre 2</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Genre 3</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Genre 4</label>
-            <br />
+            {% for i in genres %}
+            <input id="{{ i.name }}" type="checkbox" class="checkbox-item genre-items" />
+            <label>{{ i.name }}</label><br/>
+            {% endfor %}
           </form>
         </div>
+
+        <!-- Instrument Filters -->
         <a href="#" id="menuitem">INSTRUMENT</a>
         <div class="menu">
           <form id="checkbox-menu">
-            <input type="checkbox" class="checkbox-item" />
-            <label>Instrument 1</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Instrument 2</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Instrument 3</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Instrument 4</label>
-            <br />
+            {% for i in instruments %}
+            <input id="{{ i.name }}" type="checkbox" class="checkbox-item instrument-items" >
+            <label>{{ i.name }}</label><br/>
+            {% endfor %}
           </form>
         </div>
+
+        <!-- Mood Filters-->
         <a href="#" id="menuitem">MOOD</a>
         <div class="menu">
           <form id="checkbox-menu">
-            <input type="checkbox" class="checkbox-item" />
-            <label>Mood 1</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Mood 2</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Mood 3</label>
-            <br />
-            <input type="checkbox" class="checkbox-item" />
-            <label>Mood 4</label>
-            <br />
+            {% for i in moods %}
+            <input id="{{ i.name }}" type="checkbox" class="checkbox-item mood-items" />
+            <label>{{ i.name }}</label><br/>
+            {% endfor %}
           </form>
         </div>
+
       </div>
     </div>
       <div class="header-primary-nav-right ml-auto">
@@ -132,27 +117,22 @@
       </div>
     </div>
     <div id="main">
-      <!--main search bar-->
       <div class="jumbotron jumbotron-fluid" id="search-main">
         <div class="container">
+          
+          <!-- Search Bar -->
           <div class="searchBar">
             <input type="search" id="search" placeholder="Search Song..." />
             <button id="button" onclick="searchLink()">
               <i class="fas fa-search"></i>
             </button>
-            <!--<span onclick="toggleMenu()">
-              <i class="fas fa-bars fa-3x" id="menubutton"></i>
-            </span>-->
           </div>
 
-          <!-- end of search parameter -->
           <!-- Song Data -->
-          <!-- REMOVE WHEN TESTING IS OVER - currently, there should be 3 identical songs because an array of 3 items are being passed in -->
           <div id="results">
             <ul class="list-group">
 
-              {% for i in test_data %}
-
+              {% for i in songs %}
               <li class="list-group-item">
                 <div class="song-title">
                       {{ i.title }}
@@ -182,34 +162,13 @@
                   </div>
               </li>
               {% endfor %}
+
             </ul>
           </div>
           <!-- End of Song Data -->
         </div>
       </div>
     </div>
-
-    <!--search results-->
-
     <!-- <div id="footer">© 2020 Niko Korolog</div> -->
-    <!--script for filter menu-->
-    <script>
-      function toggleDetail(el) {
-        // const menu = document.getElementById("mySidenav")
-        // if(menu.classList.contains("hidden")){
-        //     menu.classList.remove("hidden")
-        //     menu.classList.add("visible")
-        // } else {
-        //     menu.classList.remove("visible")
-        //     menu.classList.add("hidden")
-        // }
-            $(el).parent().parent().children('.song-toggled-details').slideToggle();
-            if ($(el).hasClass('upside-down')) {
-                $(el).removeClass('upside-down');
-            } else {
-                $(el).addClass('upside-down');
-            }
-      }
-    </script>
   </body>
 </html>

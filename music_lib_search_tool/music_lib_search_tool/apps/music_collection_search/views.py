@@ -28,7 +28,12 @@ class Search_View(View):
 
     def get(self, request):
         q1 = Song.objects.all()[:15]
-        context = {"test_data" : q1} # When the Search_View is called, DTL will make 3 identical songs
+        q2 = Genre.objects.all()
+        q3 = Instrument.objects.all()
+        q4 = Mood.objects.all()
+
+        context = {'songs': q1,'genres': q2, "instruments":q3, "moods":q4}
+
         return render(request, 'music_collection_search/Search_View.html', context)
 
 class Database_View(View):
