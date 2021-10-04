@@ -1,0 +1,312 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{% static '/music_collection_search/css/Search_View.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/lux/bootstrap.min.css"
+    />
+    <link href="{% static '/music_collection_search/pkg/multi-select/css/multi-select.css' %}" media="screen" rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      bpm_low = 0
+      bpm_high = 200
+      $(function () {
+        $('#slider-range').slider({
+          range: true,
+          min: 0,
+          max: 200,
+          values: [0, 200],
+          slide: function (event, ui) {
+            $('#amount').val('' + ui.values[0] + ' - ' + ui.values[1]);
+            bpm_low = ui.values[0];
+            bpm_high = ui.values[1];
+          },
+        });
+        $('#amount').val(
+          '' +
+            $('#slider-range').slider('values', 0) +
+            ' - ' +
+            $('#slider-range').slider('values', 1)
+        );
+      });
+    </script>
+    <title>Search Page</title>
+  </head>
+  <body>
+    <!--navbar-->
+    <div class="header-primary-nav">
+      <div class="header-primary-nav-right ml-auto">
+        <h1 id="logo">Song Database</h1>
+      </div>
+      <div class="header-primary-nav-left"></div>
+      <div id="mySidenav" class="sidenav">
+        <a href="#" id="menuitem">BPM</a>
+        <div class="slider">
+          <p id="slider">
+            <label for="amount"></label>
+            <input
+              type="text"
+              id="amount"
+              readonly
+              style="color: #99cc00; font-weight: bold; width: 88px"
+            />
+          </p>
+          <div id="slider-range"></div>
+        </div>
+        <a href="#" id="menuitem">GENRE</a>
+        <select id='genre-filter' multiple='multiple'>
+          {% for genre in genres %}
+            <option value='{{ genre.id }}' selected>{{ genre.name }}</option>
+          {% endfor %}
+        </select>
+        <a href="#" id="menuitem">INSTRUMENT</a>
+        <select id='instrument-filter' multiple='multiple'>
+          {% for instrument in instruments %}
+            <option value='{{ instrument.id }}' selected>{{ instrument.name }}</option>
+          {% endfor %}
+        </select>
+        <a href="#" id="menuitem">MOOD</a>
+        <select id='mood-filter' multiple='multiple'>
+          {% for mood in moods %}
+            <option value='{{ mood.id }}' selected>{{ mood.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+      <div class="header-primary-nav-right ml-auto">
+        <h1 id="logo">Song Database</h1>
+      </div>
+    </div>
+    <div id="main">
+      <!--main search bar-->
+      <div class="jumbotron jumbotron-fluid" id="search-main">
+        <div class="container">
+          <div class="searchBar">
+            <input type="search" id="search" placeholder="Search Song..." />
+            <button id="search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+            <!--<span onclick="toggleMenu()">
+              <i class="fas fa-bars fa-3x" id="menubutton"></i>
+            </span>-->
+          </div>
+
+          <!-- end of search parameter -->
+          <div id="results">
+            <ul id="song-list" class="list-group">
+                <li class="list-group-item">
+                  <div class="song-title">
+                        Song Name
+                        <span class="song-length">
+                            3:20
+                        </span>
+                        <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
+                    </div>
+                    <div class="song-toggled-details">
+                        <div class="music-context">
+                            <span class="music-mode">
+                                Phrygian
+                            </span>
+                            ,
+                            <span class="time-sig">
+                                1/2
+                            </span>
+                        </div>
+                        <div class="description">
+                            <span>Description: </span>
+                            This song is for a movie.
+                        </div>
+                        <div class="soundalike">
+                            <span>Sound alike: </span>
+                            Video game water level
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="list-group-item">
+                    <div class="song-title">
+                        Song Name 2
+                        <span class="song-length">
+                            4:00
+                        </span>
+                        <i class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></i>
+                    </div>
+                    
+                    <div class="song-toggled-details">
+                        <div class="music-context">
+                            <span class="music-mode">
+                                Phrygian
+                            </span>
+                            ,
+                            <span class="time-sig">
+                                3/4
+                            </span>
+                        </div>
+                        <div class="description">
+                            <span>Description: </span>
+                            This song is for a game.
+                        </div>
+                        <div class="soundalike">
+                            <span>Sound alike: </span>
+                            Video game fire level
+                        </div>
+                    </div>
+                </li>
+                    
+                <li class="list-group-item">
+                    <div class="song-title">
+                        Song Name 3
+                    <span class="song-length">
+                        3:20
+                    </span>
+                    <i class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></i>
+                </div>
+                <div class="song-toggled-details">
+                    <div class="music-context">
+                        <span class="music-mode">
+                            Phrygian
+                        </span>
+                        ,
+                        <span class="time-sig">
+                            1/4
+                        </span>
+                    </div>
+                    <div class="description">
+                        <span>Description: </span>
+                        This song is for a story.
+                    </div>
+                    <div class="soundalike">
+                        <span>Sound alike: </span>
+                        Video game wind level
+                    </div>
+                </div>
+            </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--search results-->
+
+    <!-- <div id="footer">© 2020 Niko Korolog</div> -->
+    <!--script for filter menu-->
+    <!-- <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script> -->
+    <script src="{% static '/music_collection_search/pkg/multi-select/js/jquery.multi-select.js' %}"></script>
+    <script type="text/javascript">
+      $('#genre-filter').multiSelect();
+      $('#instrument-filter').multiSelect();
+      $('#mood-filter').multiSelect();
+    </script>
+    <script>
+      function toggleDetail(el) {
+        // const menu = document.getElementById("mySidenav")
+        // if(menu.classList.contains("hidden")){
+        //     menu.classList.remove("hidden")
+        //     menu.classList.add("visible")
+        // } else {
+        //     menu.classList.remove("visible")
+        //     menu.classList.add("hidden")
+        // }
+            $(el).parent().parent().children('.song-toggled-details').slideToggle();
+            if ($(el).hasClass('upside-down')) {
+                $(el).removeClass('upside-down');
+            } else {
+                $(el).addClass('upside-down');
+            }
+      }
+    </script>
+
+
+    <script>
+      $('#search-btn').click( function(event) {
+        console.log('click')
+        keywords = $('#search').val()
+        genres = $('#genre-filter').val();
+        instruments = $('#instrument-filter').val();
+        moods = $('#mood-filter').val();
+        console.log('data collected')
+        $.ajax({
+            type: "POST",
+            data: { 
+                "q":keywords, 
+                "genres": String(genres),
+                "instruments": String(instruments),
+                "moods": String(moods),
+                "bpm_low":bpm_low,
+                "bpm_high":bpm_high
+            },
+            url: '/api/search/0',
+            success: function(data) {
+              $('#song-list').empty();
+              data = JSON.parse(data);
+              console.log(data.songs)
+              for(var index in data.songs) {
+                console.log(index)
+                var song = data.songs[index]
+                console.log(song);
+                song_html = `
+                <li class="list-group-item">
+                  <div class="song-title">
+                        ${song.title}
+                        <span class="song-length">
+                          ${song.duration}
+                        </span>
+                        <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
+                    </div>
+                    <div class="song-toggled-details">
+                        <div class="music-context">
+                            <span class="music-mode">
+                                Phrygian
+                            </span>
+                            ,
+                            <span class="time-sig">
+                              ${song.time_signature.name}
+                            </span>
+                        </div>
+                        <div class="description">
+                            <span>Description: </span>
+                            This song is for a movie.
+                        </div>
+                        <div class="soundalike">
+                            <span>Sound alike: </span>
+                            Video game water level
+                        </div>
+                    </div>
+                </li>
+                `
+                $('#song-list').append(song_html)
+              }
+            }
+        })
+      })
+    </script>
+  </body>
+</html>
