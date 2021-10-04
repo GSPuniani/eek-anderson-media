@@ -2,6 +2,8 @@ import json
 from music_lib_search_tool.apps.music_collection_search.models import Genre, Instrument, Mood
 from django.shortcuts import render
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from music_lib_search_tool.apps.music_collection_search import csv_cleaner
 from django.db import connection
 from django.http import JsonResponse
@@ -38,17 +40,18 @@ class Database_View(View):
     def get(self, request):
         context = {"payload": csv_cleaner.get_song_titles()}
         return render(request, 'music_collection_search/Database_View.html', context)
-      
+    
+@method_decorator(csrf_exempt, name='dispatch')
 class Search_Results_View(View):
 
-    def get(self, request, offset):
-        query = request.GET.dict()['q']
+    def post(self, request, offset):
+        query = request.POST.dict()['q']
         keywords = query.split(' ')
-        genres_id_list = [int(x) for x in request.GET.dict()['genres'].strip('][').split(',')]
-        moods_id_list = [int(x) for x in request.GET.dict()['moods'].strip('][').split(',')]
-        instruments_id_list = [int(x) for x in request.GET.dict()['instruments'].strip('][').split(',')]
-        bpm_low = int(request.GET.dict()['bpm_low'])
-        bpm_high = int(request.GET.dict()['bpm_high'])
+        genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
+        moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
+        instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
+        bpm_low = int(request.POST.dict()['bpm_low'])
+        bpm_high = int(request.POST.dict()['bpm_high'])
         offset=offset*10
 
         sql = '''

@@ -254,7 +254,7 @@
         moods = $('#mood-filter').val();
         console.log('data collected')
         $.ajax({
-            type: "GET",
+            type: "POST",
             data: { 
                 "q":keywords, 
                 "genres": String(genres),
