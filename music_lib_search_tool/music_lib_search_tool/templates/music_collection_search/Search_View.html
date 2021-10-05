@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,12 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="../../site_static/music_collection_search/css/Search_View.css"
+      href="{% static '/music_collection_search/css/Search_View.css' %}"
     />
     <link
       rel="stylesheet"
       href="https://bootswatch.com/4/lux/bootstrap.min.css"
     />
+    <link href="{% static '/music_collection_search/pkg/multi-select/css/multi-select.css' %}" media="screen" rel="stylesheet" type="text/css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link
       rel="stylesheet"
@@ -33,6 +35,8 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+      bpm_low = 0
+      bpm_high = 200
       $(function () {
         $('#slider-range').slider({
           range: true,
@@ -41,6 +45,8 @@
           values: [0, 200],
           slide: function (event, ui) {
             $('#amount').val('' + ui.values[0] + ' - ' + ui.values[1]);
+            bpm_low = ui.values[0];
+            bpm_high = ui.values[1];
           },
         });
         $('#amount').val(
@@ -79,37 +85,24 @@
 
         <!-- Genre Filters -->
         <a href="#" id="menuitem">GENRE</a>
-        <div class="menu">
-          <form id="checkbox-menu">
-            {% for i in genres %}
-            <input id="{{ i.name }}" type="checkbox" class="checkbox-item genre-items" />
-            <label>{{ i.name }}</label><br/>
-            {% endfor %}
-          </form>
-        </div>
 
-        <!-- Instrument Filters -->
+        <select id='genre-filter' multiple='multiple'>
+          {% for genre in genres %}
+            <option value='{{ genre.id }}' selected>{{ genre.name }}</option>
+          {% endfor %}
+        </select>
         <a href="#" id="menuitem">INSTRUMENT</a>
-        <div class="menu">
-          <form id="checkbox-menu">
-            {% for i in instruments %}
-            <input id="{{ i.name }}" type="checkbox" class="checkbox-item instrument-items" >
-            <label>{{ i.name }}</label><br/>
-            {% endfor %}
-          </form>
-        </div>
-
-        <!-- Mood Filters-->
+        <select id='instrument-filter' multiple='multiple'>
+          {% for instrument in instruments %}
+            <option value='{{ instrument.id }}' selected>{{ instrument.name }}</option>
+          {% endfor %}
+        </select>
         <a href="#" id="menuitem">MOOD</a>
-        <div class="menu">
-          <form id="checkbox-menu">
-            {% for i in moods %}
-            <input id="{{ i.name }}" type="checkbox" class="checkbox-item mood-items" />
-            <label>{{ i.name }}</label><br/>
-            {% endfor %}
-          </form>
-        </div>
-
+        <select id='mood-filter' multiple='multiple'>
+          {% for mood in moods %}
+            <option value='{{ mood.id }}' selected>{{ mood.name }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
       <div class="header-primary-nav-right ml-auto">
@@ -123,7 +116,7 @@
           <!-- Search Bar -->
           <div class="searchBar">
             <input type="search" id="search" placeholder="Search Song..." />
-            <button id="button" onclick="searchLink()">
+            <button id="search-btn">
               <i class="fas fa-search"></i>
             </button>
           </div>
@@ -162,7 +155,6 @@
                   </div>
               </li>
               {% endfor %}
-
             </ul>
           </div>
           <!-- End of Song Data -->
@@ -170,5 +162,96 @@
       </div>
     </div>
     <!-- <div id="footer">© 2020 Niko Korolog</div> -->
+    <!--script for filter menu-->
+    <!-- <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script> -->
+    <script src="{% static '/music_collection_search/pkg/multi-select/js/jquery.multi-select.js' %}"></script>
+    <script type="text/javascript">
+      $('#genre-filter').multiSelect();
+      $('#instrument-filter').multiSelect();
+      $('#mood-filter').multiSelect();
+    </script>
+    <script>
+      function toggleDetail(el) {
+        // const menu = document.getElementById("mySidenav")
+        // if(menu.classList.contains("hidden")){
+        //     menu.classList.remove("hidden")
+        //     menu.classList.add("visible")
+        // } else {
+        //     menu.classList.remove("visible")
+        //     menu.classList.add("hidden")
+        // }
+            $(el).parent().parent().children('.song-toggled-details').slideToggle();
+            if ($(el).hasClass('upside-down')) {
+                $(el).removeClass('upside-down');
+            } else {
+                $(el).addClass('upside-down');
+            }
+      }
+    </script>
+
+
+    <script>
+      $('#search-btn').click( function(event) {
+        console.log('click')
+        keywords = $('#search').val()
+        genres = $('#genre-filter').val();
+        instruments = $('#instrument-filter').val();
+        moods = $('#mood-filter').val();
+        console.log('data collected')
+        $.ajax({
+            type: "POST",
+            data: { 
+                "q":keywords, 
+                "genres": String(genres),
+                "instruments": String(instruments),
+                "moods": String(moods),
+                "bpm_low":bpm_low,
+                "bpm_high":bpm_high
+            },
+            url: '/api/search/0',
+            success: function(data) {
+              $('#song-list').empty();
+              data = JSON.parse(data);
+              console.log(data.songs)
+              for(var index in data.songs) {
+                console.log(index)
+                var song = data.songs[index]
+                console.log(song);
+                song_html = `
+                <li class="list-group-item">
+                  <div class="song-title">
+                        ${song.title}
+                        <span class="song-length">
+                          ${song.duration}
+                        </span>
+                        <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
+                    </div>
+                    <div class="song-toggled-details">
+                        <div class="music-context">
+                            <span class="music-mode">
+                                Phrygian
+                            </span>
+                            ,
+                            <span class="time-sig">
+                              ${song.time_signature.name}
+                            </span>
+                        </div>
+                        <div class="description">
+                            <span>Description: </span>
+                            This song is for a movie.
+                        </div>
+                        <div class="soundalike">
+                            <span>Sound alike: </span>
+                            Video game water level
+                        </div>
+                    </div>
+                </li>
+                `
+                $('#song-list').append(song_html)
+              }
+            }
+        })
+      })
+    </script>
   </body>
 </html>
