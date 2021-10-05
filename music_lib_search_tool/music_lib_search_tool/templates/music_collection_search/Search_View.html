@@ -148,8 +148,8 @@
                           <span>Description: </span>
                           {{ i.description }}
                       </div>
-                      <div class="soundalike">
-                          <span>Sound alike: </span>
+                      <div class="sounds-like">
+                          <span>Sounds Like: </span>
                           {{ i.sounds_like }}
                       </div>
                   </div>
@@ -229,20 +229,20 @@
                     <div class="song-toggled-details">
                         <div class="music-context">
                             <span class="music-mode">
-                                Phrygian
+                                ${ song.mode.name }
                             </span>
                             ,
                             <span class="time-sig">
-                              ${song.time_signature.name}
+                              ${ song.time_signature.name }
                             </span>
                         </div>
                         <div class="description">
                             <span>Description: </span>
-                            This song is for a movie.
+                            ${ song.description.name }
                         </div>
-                        <div class="soundalike">
-                            <span>Sound alike: </span>
-                            Video game water level
+                        <div class="sounds-like">
+                            <span>Sounds Like: </span>
+                            ${ song.sounds_like.name }
                         </div>
                     </div>
                 </li>

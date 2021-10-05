@@ -30,7 +30,7 @@ class Search_View(View):
 
     def get(self, request):
         context = {}
-        context['songs'] = Song.objects.all()[:15]
+        context['songs'] = Song.objects.all()[:10]
         context['genres'] = Genre.objects.all()
         context['instruments'] = Instrument.objects.all()
         context['moods'] = Mood.objects.all()
