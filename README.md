@@ -23,11 +23,55 @@
 ## Table of Contents
 
 - [About](#about)
+- [Deployment](#deployment)
+- [Team](#team)
+- [Back-end Technology](#back-end-technology)
+- [Front-end Technology](#front-end-technology)
 
 ## About
 
-This webapp is part of an Industry Collaboration project. The main goal for this project is to import a table of music data and create a database that will have a searchable, filterable UI so that our partner can see data analytics on his collection of music.
+This webapp is part of an Industry Collaboration project. The main goal for this project is to import a table of music data and create a database that will have a searchable, filterable UI so that our industry partner can easily search his collection of music. This webapp will also be connected to our industry partner's landing page so that any of his prospective clients can also search his music catalog.
 
-### Pull Requests
 
-Upon completing the feature/bugfix of the corresponding branch create a pull request with a title and description. Add at least one code reviewer to the pull request to ensure good code quality and practice. Once the code has been approved by both the reviewer and the test pipeline. The code will be merged into production.
+## Deployment
+
+The webapp is live! Visit [here](http://13.52.255.54/).
+
+The homepage displays the search bar front and center, with the list of results appearing below. Each song result can be expanded to display additional details, such as Mode, Description, Time Signature, and Sounds Like. The search filters can be adjusted in the side panel on the left: the BPM range is adjusted with a slider, and the other filters (Genre, Instrument, and Mood) each have two lists - one for including in the search (right) and one for excluding from the search (left). 
+
+This project is hosted on AWS EC2 with the song database stored in AWS RDS. Our industry partner has access to a simple admin panel so that he can add and update his song catalog with ease.
+
+
+Home page:
+
+<img width="1437" alt="Home Page" src="">
+ 
+
+## Team
+
+- Tristan Thompson (Product Manager)
+- Joseph Cottingham (Back-end Lead)
+- Gobind Puniani (Gitmaster)
+- Ryan Lee (Design & QA)
+- David Cao (Front-end Lead)
+
+
+## Back-end Technology
+
+This project uses Django for its back-end framework and PostgreSQL for the database. 
+
+## Front-end Technology
+
+This project uses Bootstrap and Jinja 2 templating for its UI.  
+
+
+
+
+
+
+
+
+
+
+
+
