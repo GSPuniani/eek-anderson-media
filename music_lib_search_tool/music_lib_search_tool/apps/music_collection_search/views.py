@@ -30,9 +30,11 @@ class Search_View(View):
 
     def get(self, request):
         context = {}
+        context['songs'] = Song.objects.all()[:15]
         context['genres'] = Genre.objects.all()
         context['instruments'] = Instrument.objects.all()
         context['moods'] = Mood.objects.all()
+
         return render(request, 'music_collection_search/Search_View.html', context)
 
 class Database_View(View):

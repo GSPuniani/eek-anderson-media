@@ -67,6 +67,8 @@
       </div>
       <div class="header-primary-nav-left"></div>
       <div id="mySidenav" class="sidenav">
+
+        <!-- BPM Filter -->
         <a href="#" id="menuitem">BPM</a>
         <div class="slider">
           <p id="slider">
@@ -80,7 +82,10 @@
           </p>
           <div id="slider-range"></div>
         </div>
+
+        <!-- Genre Filters -->
         <a href="#" id="menuitem">GENRE</a>
+
         <select id='genre-filter' multiple='multiple'>
           {% for genre in genres %}
             <option value='{{ genre.id }}' selected>{{ genre.name }}</option>
@@ -105,117 +110,57 @@
       </div>
     </div>
     <div id="main">
-      <!--main search bar-->
       <div class="jumbotron jumbotron-fluid" id="search-main">
         <div class="container">
+          
+          <!-- Search Bar -->
           <div class="searchBar">
             <input type="search" id="search" placeholder="Search Song..." />
             <button id="search-btn">
               <i class="fas fa-search"></i>
             </button>
-            <!--<span onclick="toggleMenu()">
-              <i class="fas fa-bars fa-3x" id="menubutton"></i>
-            </span>-->
           </div>
 
-          <!-- end of search parameter -->
+          <!-- Song Data -->
           <div id="results">
-            <ul id="song-list" class="list-group">
-                <li class="list-group-item">
-                  <div class="song-title">
-                        Song Name
-                        <span class="song-length">
-                            3:20
-                        </span>
-                        <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
-                    </div>
-                    <div class="song-toggled-details">
-                        <div class="music-context">
-                            <span class="music-mode">
-                                Phrygian
-                            </span>
-                            ,
-                            <span class="time-sig">
-                                1/2
-                            </span>
-                        </div>
-                        <div class="description">
-                            <span>Description: </span>
-                            This song is for a movie.
-                        </div>
-                        <div class="soundalike">
-                            <span>Sound alike: </span>
-                            Video game water level
-                        </div>
-                    </div>
-                </li>
-                
-                <li class="list-group-item">
-                    <div class="song-title">
-                        Song Name 2
-                        <span class="song-length">
-                            4:00
-                        </span>
-                        <i class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></i>
-                    </div>
-                    
-                    <div class="song-toggled-details">
-                        <div class="music-context">
-                            <span class="music-mode">
-                                Phrygian
-                            </span>
-                            ,
-                            <span class="time-sig">
-                                3/4
-                            </span>
-                        </div>
-                        <div class="description">
-                            <span>Description: </span>
-                            This song is for a game.
-                        </div>
-                        <div class="soundalike">
-                            <span>Sound alike: </span>
-                            Video game fire level
-                        </div>
-                    </div>
-                </li>
-                    
-                <li class="list-group-item">
-                    <div class="song-title">
-                        Song Name 3
-                    <span class="song-length">
-                        3:20
-                    </span>
-                    <i class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></i>
-                </div>
-                <div class="song-toggled-details">
-                    <div class="music-context">
-                        <span class="music-mode">
-                            Phrygian
-                        </span>
-                        ,
-                        <span class="time-sig">
-                            1/4
-                        </span>
-                    </div>
-                    <div class="description">
-                        <span>Description: </span>
-                        This song is for a story.
-                    </div>
-                    <div class="soundalike">
-                        <span>Sound alike: </span>
-                        Video game wind level
-                    </div>
-                </div>
-            </li>
+            <ul class="list-group">
+
+              {% for i in songs %}
+              <li class="list-group-item">
+                <div class="song-title">
+                      {{ i.title }}
+                      <span class="song-length">
+                          {{ i.duration }}
+                      </span>
+                      <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
+                  </div>
+                  <div class="song-toggled-details">
+                      <div class="music-context">
+                          <span class="music-mode">
+                              {{ i.mode.name }}
+                          </span>
+                          ,
+                          <span class="time-sig">
+                              {{ i.time_signature.name }}
+                          </span>
+                      </div>
+                      <div class="description">
+                          <span>Description: </span>
+                          {{ i.description }}
+                      </div>
+                      <div class="soundalike">
+                          <span>Sound alike: </span>
+                          {{ i.sounds_like }}
+                      </div>
+                  </div>
+              </li>
+              {% endfor %}
             </ul>
           </div>
+          <!-- End of Song Data -->
         </div>
       </div>
     </div>
-
-    <!--search results-->
-
     <!-- <div id="footer">© 2020 Niko Korolog</div> -->
     <!--script for filter menu-->
     <!-- <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script> -->
