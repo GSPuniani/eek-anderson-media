@@ -81,6 +81,11 @@ class Mode(UuidBase, CreationModificationDateBase):
     class Meta:
         managed = True
         db_table = 'mode'
+    
+    def to_dict(self):
+        return {
+            'name':self.name
+        }
 
 
 class Keyword(UuidBase, CreationModificationDateBase):
@@ -169,6 +174,7 @@ class Song(UuidBase, CreationModificationDateBase):
            'description':self.description,
            'duration':str(self.duration),
            'key':self.music_key,
+           'mode':self.mode.to_dict(),
            'time_signature':self.time_signature.to_dict(),
            'sounds_like':self.sounds_like,
            'bpm':self.bpm,
