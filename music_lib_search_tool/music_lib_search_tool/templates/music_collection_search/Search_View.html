@@ -126,7 +126,7 @@
             <ul class="list-group">
 
               {% for i in songs %}
-              <li class="list-group-item">
+              <li id="song-list" class="list-group-item">
                 <div class="song-title">
                       {{ i.title }}
                       <span class="song-length">
@@ -209,7 +209,7 @@
                 "bpm_high":bpm_high
             },
             url: '/api/search/0',
-            success: function(data) {
+            success: function(data) {              
               $('#song-list').empty();
               data = JSON.parse(data);
               console.log(data.songs)
