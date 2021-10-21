@@ -136,6 +136,7 @@
               {% for i in songs %}
               <li class="list-group-item">
                 <div class="song-title">
+                    <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
                       {{ i.title }}
                       <span class="song-length">
                           {{ i.duration }}
@@ -161,6 +162,7 @@
                           {{ i.sounds_like }}
                       </div>
                   </div>
+                  <div class="iframe">safdsafsdaf</div>
               </li>
               {% endfor %}
             </ul>
@@ -178,16 +180,37 @@
       $('#instrument-filter').multiSelect();
       $('#mood-filter').multiSelect();
     </script>
+
+    <!-- handle play button -->
+    <script>
+        /*
+        first query the iframe div
+        then check if the soundcloud iframe is already loaded inside it
+        if yes, toggle hide/show
+        if not, load soundcloud iframe widget */
+        function showSoundcloud(el){
+            let iframe = $(el).parent().siblings('.iframe')
+            if(iframe.find('iframe').length){
+                $(el).parent().siblings('.iframe').slideToggle()
+            } else {
+                $.ajax({
+                    type: "get",
+                    data: { 
+                        "url": 'https://soundcloud.com/felixblume/wind-singing-in-an-old-tube-on-the-top-of-the-mountain-chacaltaya',
+                        'format': 'json'
+                        },
+                        url: 'https://soundcloud.com/oembed',
+                    success: function(data){
+                        console.log($(el).parent().siblings('.iframe'), data, data.html)
+                        $(el).parent().siblings('.iframe').html(data.html)
+                    }
+                })
+            }
+        }
+    </script>
+
     <script>
       function toggleDetail(el) {
-        // const menu = document.getElementById("mySidenav")
-        // if(menu.classList.contains("hidden")){
-        //     menu.classList.remove("hidden")
-        //     menu.classList.add("visible")
-        // } else {
-        //     menu.classList.remove("visible")
-        //     menu.classList.add("hidden")
-        // }
             $(el).parent().parent().children('.song-toggled-details').slideToggle();
             if ($(el).hasClass('upside-down')) {
                 $(el).removeClass('upside-down');
