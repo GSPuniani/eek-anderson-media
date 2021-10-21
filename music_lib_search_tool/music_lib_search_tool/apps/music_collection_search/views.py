@@ -40,7 +40,7 @@ class Search_View(View):
 class Database_View(View):
 
     def get(self, request):
-        context = {"payload": csv_cleaner.get_song_titles()}
+        context = {"payload": csv_cleaner.build()}
         return render(request, 'music_collection_search/Database_View.html', context)
     
 @method_decorator(csrf_exempt, name='dispatch')
