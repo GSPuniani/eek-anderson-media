@@ -44,7 +44,7 @@ This project is hosted on AWS EC2 with the song database stored in AWS RDS. Our 
 
 Home page:
 
-<img width="1437" alt="Home Page" src="https://github.com/GSPuniani/eek-anderson-media/blob/main/screenshots/Screen%20Shot%202021-10-05%20at%2010.43.43%20AM.png?raw=true">
+<img width="1437" alt="Home Page" src="https://github.com/GSPuniani/eek-anderson-media/blob/main/screenshots/Home%20Page.png?raw=true">
  
 
 ## Team
