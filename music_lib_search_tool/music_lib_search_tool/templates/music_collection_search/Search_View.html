@@ -123,11 +123,20 @@
 
           <!-- Song Data -->
           <div id="results">
+            <div id="data_loader">
+              <div id="data_spinner">
+
+              </div>
+              <div id="data_loader_text_div">
+                <h3 id="data_loader_text">Loading Data...</h3>
+              </div>
+            </div>
             <ul id="song-list" class="list-group">
 
               {% for i in songs %}
               <li class="list-group-item">
                 <div class="song-title">
+                    <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
                       {{ i.title }}
                       <span class="song-length">
                           {{ i.duration }}
@@ -153,6 +162,7 @@
                           {{ i.sounds_like }}
                       </div>
                   </div>
+                  <div class="iframe">safdsafsdaf</div>
               </li>
               {% endfor %}
             </ul>
@@ -170,16 +180,37 @@
       $('#instrument-filter').multiSelect();
       $('#mood-filter').multiSelect();
     </script>
+
+    <!-- handle play button -->
+    <script>
+        /*
+        first query the iframe div
+        then check if the soundcloud iframe is already loaded inside it
+        if yes, toggle hide/show
+        if not, load soundcloud iframe widget */
+        function showSoundcloud(el){
+            let iframe = $(el).parent().siblings('.iframe')
+            if(iframe.find('iframe').length){
+                $(el).parent().siblings('.iframe').slideToggle()
+            } else {
+                $.ajax({
+                    type: "get",
+                    data: { 
+                        "url": 'https://soundcloud.com/felixblume/wind-singing-in-an-old-tube-on-the-top-of-the-mountain-chacaltaya',
+                        'format': 'json'
+                        },
+                        url: 'https://soundcloud.com/oembed',
+                    success: function(data){
+                        console.log($(el).parent().siblings('.iframe'), data, data.html)
+                        $(el).parent().siblings('.iframe').html(data.html)
+                    }
+                })
+            }
+        }
+    </script>
+
     <script>
       function toggleDetail(el) {
-        // const menu = document.getElementById("mySidenav")
-        // if(menu.classList.contains("hidden")){
-        //     menu.classList.remove("hidden")
-        //     menu.classList.add("visible")
-        // } else {
-        //     menu.classList.remove("visible")
-        //     menu.classList.add("hidden")
-        // }
             $(el).parent().parent().children('.song-toggled-details').slideToggle();
             if ($(el).hasClass('upside-down')) {
                 $(el).removeClass('upside-down');
@@ -192,6 +223,11 @@
 
     <script>
       $('#search-btn').click( function(event) {
+        $('#song-list').empty();
+        $("#data_loader").css({"display":"block"});
+        $("#data_loader_text").css({"color":"black"});
+        $('#data_loader_text').text('Loading Data...');
+        $('#data_spinner').css({"border-top":"150px solid #007bff"});
         console.log('click')
         keywords = $('#search').val()
         genres = $('#genre-filter').val();
@@ -209,8 +245,15 @@
                 "bpm_high":bpm_high
             },
             url: '/api/search/0',
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR);
+              $('#data_spinner').css({"border-top":"150px solid #fc4103"})
+              $("#data_loader_text").css({"color":"#fc4103"});
+              $('#data_loader_text').text('Error Occurred...');
+            },
             success: function(data) {              
               $('#song-list').empty();
+              $("#data_loader").css({"display":"none"});
               data = JSON.parse(data);
               console.log(data.songs)
               for(var index in data.songs) {

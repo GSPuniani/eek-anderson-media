@@ -261,3 +261,33 @@ input.checkbox-item {
     transform: rotate(180deg);
 }
 
+
+#data_loader {
+  display: none;
+  top: 30%;
+  left: 52%;
+  position: absolute;
+  display: none;
+}
+#data_spinner {
+  border: 150px solid #f3f3f3; /* Light grey */
+  border-top: 150px solid #007bff; /* Blue */
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#data_loader_text_div {
+  text-align: center;
+  margin-top: 1em;
+}
+
+#data_loader_text {
+  color: black;
+}
