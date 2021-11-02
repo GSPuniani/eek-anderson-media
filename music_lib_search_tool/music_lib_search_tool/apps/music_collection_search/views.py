@@ -6,8 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from music_lib_search_tool.apps.music_collection_search import csv_cleaner
 from django.db import connection
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.conf import settings
 
+from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Search
+from elasticsearch_dsl import MultiSearch, Search
 
 from music_lib_search_tool.apps.music_collection_search.models import Song
 
@@ -42,14 +46,57 @@ class Database_View(View):
     def get(self, request):
         context = {"payload": csv_cleaner.build()}
         return render(request, 'music_collection_search/Database_View.html', context)
-    
+
+class Search_Test_View(View):
+
+    def get(self, request):
+        # query = request.GET.dict()['q']
+        # query = query.split(' ')
+        # print(query)
+
+        # client = Elasticsearch()
+
+        # s = Search().using(client).query("term", title=query)
+        
+        # ms = MultiSearch(index='song')
+
+        # ms = ms.add(Search().using(client).filter('terms', title=query))
+        # ms = ms.add(Search().using(client).filter('terms', description=query))
+        # ms = ms.add(Search().using(client).filter('terms', description=query))
+        # ms = ms.add(Search().using(client).filter('terms', description=query))
+
+
+        # responses = ms.execute()
+
+        # for hit in s:
+        #     print(hit.title)
+        
+        responses = settings.ES.search(index="song", body={
+            "query": {
+                "combined_fields": {
+                    "fields":[ "title", "description", "moods"],
+                    "query": "this is a test",
+                    "operator": "or",
+                    "zero_terms_query": "all"
+                }
+            }
+        })
+        id_list = []
+        for response in responses['hits']['hits']:
+            id_list.append(response['_source']['id'])
+
+        songs = Song.objects.filter(pk__in=id_list).all()
+        print(songs)
+
+        return HttpResponse()
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class Search_Results_View(View):
 
     def post(self, request, offset):
         query = request.POST.dict()['q']
-        keywords = query.split(' ')
-        print(type(request.POST.dict()['genres']))
+
         genres_id_list = []
         moods_id_list = []
         instruments_id_list = []
@@ -61,29 +108,28 @@ class Search_Results_View(View):
           instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
         bpm_low = int(request.POST.dict()['bpm_low'])
         bpm_high = int(request.POST.dict()['bpm_high'])
-        offset=offset*10
 
-        sql = '''
-        select search_keywords as id from search_keywords(%s) limit 10
-        '''
+        responses = settings.ES.search(index="song", body={
+            "query": {
+                "combined_fields": {
+                    "fields":[ "title^4", "description", "keywords", "intruments", "moods"],
+                    "query": query,
+                    "operator": "or",
+                    "zero_terms_query": "all"
+                }
+            }
+        })
+        id_list = []
+        for response in responses['hits']['hits']:
+            print(response['_source'])
+            id_list.append(response['_source']['id'])
 
-        song_sql_result = run_db_query(sql, [keywords])
-        id_list = set(song_sql_result[0]['id'])
-
-        genre_list = Genre.objects.filter(pk__in=genres_id_list).all()
-        mood_list = Mood.objects.filter(pk__in=moods_id_list).all()
-        instrument_list = Instrument.objects.filter(pk__in=instruments_id_list).all()
-
-        song_list = Song.objects.filter(pk__in=id_list, bpm__lte=bpm_high, bpm__gte=bpm_low)\
-            .filter(genre__in=genre_list, mood__in=mood_list, instrument__in=instrument_list)\
-            .all()
-
-        song_list = list(set(song_list))[offset:offset+10]
-        print('Filter Applied')
+        song_list = Song.objects.filter(pk__in=id_list).all()
         print(song_list)
+
         data = {
             'num':len(song_list),
-            'keywords':keywords,
+            'keywords':query,
             'songs': [song.to_dict() for song in song_list]
         }
         return JsonResponse(json.dumps(data), status=200, safe=False)
