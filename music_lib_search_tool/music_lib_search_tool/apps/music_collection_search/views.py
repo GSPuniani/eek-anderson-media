@@ -112,7 +112,7 @@ class Search_Results_View(View):
         responses = settings.ES.search(index="song", body={
             "query": {
                 "combined_fields": {
-                    "fields":[ "title^4", "description", "keywords", "intruments", "moods"],
+                    "fields":["title^4", "description", "keywords", "intruments", "moods"],
                     "query": query,
                     "operator": "or",
                     "zero_terms_query": "all"
@@ -120,11 +120,11 @@ class Search_Results_View(View):
             }
         })
         id_list = []
+        song_list = []
         for response in responses['hits']['hits']:
             print(response['_source'])
             id_list.append(response['_source']['id'])
-
-        song_list = Song.objects.filter(pk__in=id_list).all()
+            song_list.append(Song.objects.filter(id=response['_source']['id']).first())
         print(song_list)
 
         data = {

@@ -21,7 +21,10 @@ if __name__ == '__main__':
         conn = psycopg2.connect(host=host, database=db, user=user, password=password)
 
         sql = '''
-            select song.id, song.title, song.description, array_agg(keyword.name) as keywords, array_agg(instrument.name) as instruments, array_agg(mood.name) as moods, array_agg(genre.name) as genres from song
+            select song.id, song.title, song.description,
+            array_agg(keyword.name) as keywords, array_agg(instrument.name) as instruments, array_agg(mood.name) as moods, array_agg(genre.name) as genres,
+            array_agg(keyword.id) as keyword_ids, array_agg(instrument.id) as instrument_ids, array_agg(mood.id) as mood_ids, array_agg(genre.id) as genre_ids
+            from song
             join song_keyword
             on song.id = song_keyword.song_id
             join keyword
@@ -62,6 +65,11 @@ if __name__ == '__main__':
             song['instruments']=list(set(song['instruments']))
             song['genres']=list(set(song['genres']))
             song['moods']=list(set(song['moods']))
+
+            song['keywords']=list(set(song['keyword_ids']))
+            song['instruments']=list(set(song['instrument_ids']))
+            song['genres']=list(set(song['genre_ids']))
+            song['moods']=list(set(song['mood_ids']))
 
             res = es.index(index="song", id=song['id'], document=song)
 
