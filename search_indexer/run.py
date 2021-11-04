@@ -60,16 +60,19 @@ if __name__ == '__main__':
 
         es.indices.delete(index='song')
 
+        es.indices.create(index='song')
+
+
         for song in results:
             song['keywords']=list(set(song['keywords']))
             song['instruments']=list(set(song['instruments']))
             song['genres']=list(set(song['genres']))
             song['moods']=list(set(song['moods']))
 
-            song['keywords']=list(set(song['keyword_ids']))
-            song['instruments']=list(set(song['instrument_ids']))
-            song['genres']=list(set(song['genre_ids']))
-            song['moods']=list(set(song['mood_ids']))
+            song['keyword_ids']=list(set(song['keyword_ids']))
+            song['instrument_ids']=list(set(song['instrument_ids']))
+            song['genre_ids']=list(set(song['genre_ids']))
+            song['mood_ids']=list(set(song['mood_ids']))
 
             res = es.index(index="song", id=song['id'], document=song)
 
