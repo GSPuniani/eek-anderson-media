@@ -15,6 +15,7 @@ import os
 from dotenv import load_dotenv
 from music_lib_search_tool.apps.core.versioning import get_git_changeset_timestamp
 load_dotenv()
+from elasticsearch import Elasticsearch
 
 
 BASE_URL = 'http://127.0.0.1:8000'
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'music_lib_search_tool.apps.core',
     'music_lib_search_tool.apps.user',
     'music_lib_search_tool.apps.music_collection_search',
+    'django_elasticsearch_dsl'
 ]
 
 
@@ -173,4 +175,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 AUTH_USER_MODEL='user.User'
 CSRF_COOKIE_SECURE=False
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+
+ES = Elasticsearch(['http://localhost:9200'], verify_certs=False)
 
