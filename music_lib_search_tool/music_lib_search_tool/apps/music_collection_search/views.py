@@ -96,39 +96,47 @@ class Search_Test_View(View):
 class Search_Results_View(View):
 
     def post(self, request, offset):
-        query = request.POST.dict()['q']
-
-        genres_id_list = []
-        moods_id_list = []
-        instruments_id_list = []
-        if request.POST.dict()['genres'] != "null":
-          genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
-        if request.POST.dict()['moods'] != "null":  
-          moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
-        if request.POST.dict()['instruments'] != "null":  
-          instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
-        bpm_low = int(request.POST.dict()['bpm_low'])
-        bpm_high = int(request.POST.dict()['bpm_high'])
-
-        responses = settings.ES.search(index="song", body={
-            "from": offset*10,
-            "size": 10,
-            "query": {
-                "combined_fields": {
-                    "fields":["title^4", "description^2", "keywords^3", "intruments", "genres", "moods"],
-                    "query": query,
-                    "operator": "or",
-                    "zero_terms_query": "all"
-                }
-            }
-        })
-        id_list = []
+        query = request.POST.dict().get('q')
         song_list = []
-        for response in responses['hits']['hits']:
-            print(response['_source'])
-            id_list.append(response['_source']['id'])
-            song_list.append(Song.objects.filter(id=response['_source']['id']).first())
-        print(song_list)
+        print(query)
+        if query == "" or query == None:
+            print("This is the if-block")
+            start = offset * 10
+            print(start)
+            song_list = Song.objects.order_by(F("overall_quality").desc(nulls_last=True)).all()[start:start+10]
+            print(song_list)
+        else:
+            genres_id_list = []
+            moods_id_list = []
+            instruments_id_list = []
+            if request.POST.dict()['genres'] != "null":
+                genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
+            if request.POST.dict()['moods'] != "null":  
+                moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
+            if request.POST.dict()['instruments'] != "null":  
+                instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
+            bpm_low = int(request.POST.dict()['bpm_low'])
+            bpm_high = int(request.POST.dict()['bpm_high'])
+
+            responses = settings.ES.search(index="song", body={
+                "from": offset*10,
+                "size": 10,
+                "query": {
+                    "combined_fields": {
+                        "fields":["title^4", "description^2", "keywords^3", "intruments", "genres", "moods"],
+                        "query": query,
+                        "operator": "or",
+                        "zero_terms_query": "all"
+                    }
+                }
+            })
+            id_list = []
+            song_list = []
+            for response in responses['hits']['hits']:
+                print(response['_source'])
+                id_list.append(response['_source']['id'])
+                song_list.append(Song.objects.filter(id=response['_source']['id']).first())
+            print(song_list)
 
         data = {
             'num':len(song_list),
