@@ -123,14 +123,6 @@
 
           <!-- Song Data -->
           <div id="results">
-            <div id="data_loader">
-              <div id="data_spinner">
-
-              </div>
-              <div id="data_loader_text_div">
-                <h3 id="data_loader_text">Loading Data...</h3>
-              </div>
-            </div>
             <ul id="song-list" class="list-group">
 
               {% for i in songs %}
@@ -139,7 +131,7 @@
                     <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
                       {{ i.title }}
                       <span class="song-length">
-                          {{ i.duration }}
+                          {{ i.get_duration }}
                       </span>
                       <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
                   </div>
@@ -166,8 +158,17 @@
               </li>
               {% endfor %}
             </ul>
+            <div id="data_loader">
+              <div id="data_spinner">
+
+              </div>
+              <div id="data_loader_text_div">
+                <h3 id="data_loader_text">Loading Data...</h3>
+              </div>
+            </div>
           </div>
           <!-- End of Song Data -->
+          <button class='btn btn-dark' id='page-btn'>Load More</button>
         </div>
       </div>
     </div>
@@ -222,8 +223,9 @@
 
 
     <script>
-      $('#search-btn').click( function(event) {
-        $('#song-list').empty();
+      var cur_page = 0
+      function populate_list(event, remove_old) {
+        if (remove_old){$('#song-list').empty();}
         $("#data_loader").css({"display":"block"});
         $("#data_loader_text").css({"color":"black"});
         $('#data_loader_text').text('Loading Data...');
@@ -244,7 +246,7 @@
                 "bpm_low":bpm_low,
                 "bpm_high":bpm_high
             },
-            url: '/api/search/0',
+            url: `/api/search/${cur_page}`,
             error: function(jqXHR, textStatus, errorThrown) {
               console.log(jqXHR);
               $('#data_spinner').css({"border-top":"150px solid #fc4103"})
@@ -252,7 +254,7 @@
               $('#data_loader_text').text('Error Occurred...');
             },
             success: function(data) {              
-              $('#song-list').empty();
+              if (remove_old){$('#song-list').empty();}
               $("#data_loader").css({"display":"none"});
               data = JSON.parse(data);
               console.log(data.songs)
@@ -263,12 +265,13 @@
                 song_html = `
                 <li class="list-group-item">
                   <div class="song-title">
-                        ${song.title}
-                        <span class="song-length">
-                          ${song.duration}
-                        </span>
-                        <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
-                    </div>
+                    <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
+                    ${song.title}
+                      <span class="song-length">
+                        ${song.duration}
+                      </span>
+                      <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
+                  </div>
                     <div class="song-toggled-details">
                         <div class="music-context">
                             <span class="music-mode">
@@ -288,12 +291,21 @@
                             ${ song.sounds_like }
                         </div>
                     </div>
+                    <div class="iframe"></div>
                 </li>
                 `
                 $('#song-list').append(song_html)
               }
             }
         })
+      }
+      $('#search-btn').click( function (event) {
+        cur_page = 0
+        populate_list(event, true)
+      })
+      $('#page-btn').click( function (event) {
+        cur_page = cur_page + 1
+        populate_list(event, false)
       })
     </script>
   </body>

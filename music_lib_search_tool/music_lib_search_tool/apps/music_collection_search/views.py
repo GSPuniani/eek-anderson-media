@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from music_lib_search_tool.apps.music_collection_search import csv_cleaner
 from django.db import connection
+from django.db.models import F
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 
@@ -34,10 +35,10 @@ class Search_View(View):
 
     def get(self, request):
         context = {}
-        context['songs'] = Song.objects.all()[:10]
-        context['genres'] = Genre.objects.all()
-        context['instruments'] = Instrument.objects.all()
-        context['moods'] = Mood.objects.all()
+        context['songs'] = Song.objects.order_by(F("overall_quality").desc(nulls_last=True)).all()[:10]
+        context['genres'] = Genre.objects.order_by("name").all()
+        context['instruments'] = Instrument.objects.order_by("name").all()
+        context['moods'] = Mood.objects.order_by("name").all()
 
         return render(request, 'music_collection_search/Search_View.html', context)
 
@@ -74,7 +75,7 @@ class Search_Test_View(View):
         responses = settings.ES.search(index="song", body={
             "query": {
                 "combined_fields": {
-                    "fields":[ "title", "description", "moods"],
+                    "fields":["title", "description", "moods"],
                     "query": "this is a test",
                     "operator": "or",
                     "zero_terms_query": "all"
@@ -95,37 +96,47 @@ class Search_Test_View(View):
 class Search_Results_View(View):
 
     def post(self, request, offset):
-        query = request.POST.dict()['q']
-
-        genres_id_list = []
-        moods_id_list = []
-        instruments_id_list = []
-        if request.POST.dict()['genres'] != "null":
-          genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
-        if request.POST.dict()['moods'] != "null":  
-          moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
-        if request.POST.dict()['instruments'] != "null":  
-          instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
-        bpm_low = int(request.POST.dict()['bpm_low'])
-        bpm_high = int(request.POST.dict()['bpm_high'])
-
-        responses = settings.ES.search(index="song", body={
-            "query": {
-                "combined_fields": {
-                    "fields":["title^4", "description", "keywords", "intruments", "moods"],
-                    "query": query,
-                    "operator": "or",
-                    "zero_terms_query": "all"
-                }
-            }
-        })
-        id_list = []
+        query = request.POST.dict().get('q')
         song_list = []
-        for response in responses['hits']['hits']:
-            print(response['_source'])
-            id_list.append(response['_source']['id'])
-            song_list.append(Song.objects.filter(id=response['_source']['id']).first())
-        print(song_list)
+        print(query)
+        if query == "" or query == None:
+            print("This is the if-block")
+            start = offset * 10
+            print(start)
+            song_list = Song.objects.order_by(F("overall_quality").desc(nulls_last=True)).all()[start:start+10]
+            print(song_list)
+        else:
+            genres_id_list = []
+            moods_id_list = []
+            instruments_id_list = []
+            if request.POST.dict()['genres'] != "null":
+                genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
+            if request.POST.dict()['moods'] != "null":  
+                moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
+            if request.POST.dict()['instruments'] != "null":  
+                instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
+            bpm_low = int(request.POST.dict()['bpm_low'])
+            bpm_high = int(request.POST.dict()['bpm_high'])
+
+            responses = settings.ES.search(index="song", body={
+                "from": offset*10,
+                "size": 10,
+                "query": {
+                    "combined_fields": {
+                        "fields":["title^4", "description^2", "keywords^3", "intruments", "genres", "moods"],
+                        "query": query,
+                        "operator": "or",
+                        "zero_terms_query": "all"
+                    }
+                }
+            })
+            id_list = []
+            song_list = []
+            for response in responses['hits']['hits']:
+                print(response['_source'])
+                id_list.append(response['_source']['id'])
+                song_list.append(Song.objects.filter(id=response['_source']['id']).first())
+            print(song_list)
 
         data = {
             'num':len(song_list),
