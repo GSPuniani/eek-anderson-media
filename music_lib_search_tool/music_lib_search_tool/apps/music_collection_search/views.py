@@ -75,7 +75,7 @@ class Search_Test_View(View):
         responses = settings.ES.search(index="song", body={
             "query": {
                 "combined_fields": {
-                    "fields":[ "title", "description", "moods"],
+                    "fields":["title", "description", "moods"],
                     "query": "this is a test",
                     "operator": "or",
                     "zero_terms_query": "all"
@@ -111,9 +111,11 @@ class Search_Results_View(View):
         bpm_high = int(request.POST.dict()['bpm_high'])
 
         responses = settings.ES.search(index="song", body={
+            "from": offset*10,
+            "size": 10,
             "query": {
                 "combined_fields": {
-                    "fields":["title^4", "description", "keywords", "intruments", "moods"],
+                    "fields":["title^4", "description^2", "keywords^3", "intruments", "genres", "moods"],
                     "query": query,
                     "operator": "or",
                     "zero_terms_query": "all"

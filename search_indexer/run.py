@@ -58,12 +58,16 @@ if __name__ == '__main__':
 
         es = Elasticsearch(['http://localhost:9200'], verify_certs=False)
 
-        es.indices.delete(index='song')
+        if es.indices.exists(index='song'):
+            es.indices.delete(index='song')
 
         es.indices.create(index='song')
 
 
         for song in results:
+
+            print(song['title'])
+
             song['keywords']=list(set(song['keywords']))
             song['instruments']=list(set(song['instruments']))
             song['genres']=list(set(song['genres']))
