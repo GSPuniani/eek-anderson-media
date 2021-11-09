@@ -172,7 +172,7 @@ class Song(UuidBase, CreationModificationDateBase):
         return {
            'title':self.title,
            'description':self.description,
-           'duration':str(self.duration),
+           'duration':self.get_duration(),
            'key':self.music_key,
            'mode':self.mode.to_dict(),
            'time_signature':self.time_signature.to_dict(),
@@ -183,3 +183,6 @@ class Song(UuidBase, CreationModificationDateBase):
            'instrument':[i.to_dict() for i in self.instrument.all()],
            'mood':[m.to_dict() for m in self.mood.all()]
         }
+
+    def get_duration(self):
+        return str(self.duration)[0:-3]
