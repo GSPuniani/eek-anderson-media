@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from music_lib_search_tool.apps.music_collection_search import csv_cleaner
 from django.db import connection
+from django.db.models import F
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 
@@ -34,10 +35,10 @@ class Search_View(View):
 
     def get(self, request):
         context = {}
-        context['songs'] = Song.objects.all()[:10]
-        context['genres'] = Genre.objects.all()
-        context['instruments'] = Instrument.objects.all()
-        context['moods'] = Mood.objects.all()
+        context['songs'] = Song.objects.order_by(F("overall_quality").desc(nulls_last=True)).all()[:10]
+        context['genres'] = Genre.objects.order_by("name").all()
+        context['instruments'] = Instrument.objects.order_by("name").all()
+        context['moods'] = Mood.objects.order_by("name").all()
 
         return render(request, 'music_collection_search/Search_View.html', context)
 
