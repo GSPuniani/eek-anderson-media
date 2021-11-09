@@ -133,9 +133,6 @@ class Search_Results_View(View):
                 "combined_fields": {
                     "fields":["title^4", "description^2", "keywords^3", "intruments", "genres", "moods"],
                     "query": query,
-                    "filter": [ 
-                        { "term":  { "genre_ids": genres_id_list }},
-                    ],
                     "operator": "or",
                     "zero_terms_query": "all"
                 }
