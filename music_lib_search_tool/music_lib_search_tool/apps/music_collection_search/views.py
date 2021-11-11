@@ -40,7 +40,7 @@ class Search_View(View):
 class Database_View(View):
 
     def get(self, request):
-        context = {"payload": csv_cleaner.get_song_titles()}
+        context = {"payload": csv_cleaner.build()}
         return render(request, 'music_collection_search/Database_View.html', context)
     
 @method_decorator(csrf_exempt, name='dispatch')
@@ -49,9 +49,16 @@ class Search_Results_View(View):
     def post(self, request, offset):
         query = request.POST.dict()['q']
         keywords = query.split(' ')
-        genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
-        moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
-        instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
+        print(type(request.POST.dict()['genres']))
+        genres_id_list = []
+        moods_id_list = []
+        instruments_id_list = []
+        if request.POST.dict()['genres'] != "null":
+          genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
+        if request.POST.dict()['moods'] != "null":  
+          moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
+        if request.POST.dict()['instruments'] != "null":  
+          instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
         bpm_low = int(request.POST.dict()['bpm_low'])
         bpm_high = int(request.POST.dict()['bpm_high'])
         offset=offset*10
