@@ -129,7 +129,7 @@ input:focus {
   background-color: rgb(31, 31, 31); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  width: 17%;
+  width: 200px;
   padding: 20px;
 }
 
@@ -174,28 +174,31 @@ input:focus {
   }
 }
 
-#menuitem {
+.filter-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.slider {
-  /* display: flex; */
-  /* align-items: top; */
-  /* text-align: center; */
-}
-
-#slider {
-  /* margin: 10px 35px 10px 35px; */
+.filter-title {
+    font-size: 1.5rem;
+    color: white;
+    text-align: center;
 }
 
 #slider-range {
-  margin-top: 15px;
-  width: 100%;
+    width: 130px;
 }
 
 #amount {
   /* margin: 5px; */
   /* margin-left: 32px; */
   border-radius: 2px;
+}
+
+.fa-play:hover {
+    cursor: pointer;
+    color: gray;
 }
 
 input.checkbox-item {

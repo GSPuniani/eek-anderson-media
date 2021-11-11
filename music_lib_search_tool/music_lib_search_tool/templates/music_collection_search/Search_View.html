@@ -69,40 +69,47 @@
       <div id="mySidenav" class="sidenav">
 
         <!-- BPM Filter -->
-        <a href="#" id="menuitem">BPM</a>
-        <div class="slider">
-          <p id="slider">
-            <label for="amount"></label>
-            <input
-              type="text"
-              id="amount"
-              readonly
-              style="color: #99cc00; font-weight: bold; width: 88px"
-            />
-          </p>
-          <div id="slider-range"></div>
+        <div class="filter-group">
+            <div class="filter-title">BPM</div>
+            <!-- <div class="slider"> -->
+                <p id="slider">
+                    <label for="amount"></label>
+                    <input
+                    type="text"
+                    id="amount"
+                    readonly
+                    style="color: #99cc00; font-weight: bold; width: 88px"
+                    />
+                </p>
+                <div id="slider-range"></div>
+            <!-- </div> -->
         </div>
+        <br />
 
         <!-- Genre Filters -->
-        <a href="#" id="menuitem">GENRE</a>
-
+        <div class="filter-title">GENRE</div>
         <select id='genre-filter' multiple='multiple'>
           {% for genre in genres %}
             <option value='{{ genre.id }}' selected>{{ genre.name }}</option>
           {% endfor %}
         </select>
-        <a href="#" id="menuitem">INSTRUMENT</a>
+        <br />
+
+        <div class="filter-title">INSTRUMENT</div>
         <select id='instrument-filter' multiple='multiple'>
           {% for instrument in instruments %}
             <option value='{{ instrument.id }}' selected>{{ instrument.name }}</option>
           {% endfor %}
         </select>
-        <a href="#" id="menuitem">MOOD</a>
+        <br />
+        
+        <div class="filter-title">MOOD</div>
         <select id='mood-filter' multiple='multiple'>
-          {% for mood in moods %}
+            {% for mood in moods %}
             <option value='{{ mood.id }}' selected>{{ mood.name }}</option>
-          {% endfor %}
+            {% endfor %}
         </select>
+        <br />
       </div>
     </div>
       <div class="header-primary-nav-right ml-auto">
