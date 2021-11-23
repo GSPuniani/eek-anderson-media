@@ -174,31 +174,28 @@ input:focus {
   }
 }
 
-.filter-group{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#menuitem {
 }
 
-.filter-title {
-    font-size: 1.5rem;
-    color: white;
-    text-align: center;
+.slider {
+  /* display: flex; */
+  /* align-items: top; */
+  /* text-align: center; */
+}
+
+#slider {
+  /* margin: 10px 35px 10px 35px; */
 }
 
 #slider-range {
-    width: 130px;
+  margin-top: 15px;
+  width: 100%;
 }
 
 #amount {
   /* margin: 5px; */
   /* margin-left: 32px; */
   border-radius: 2px;
-}
-
-.fa-play:hover {
-    cursor: pointer;
-    color: gray;
 }
 
 input.checkbox-item {
