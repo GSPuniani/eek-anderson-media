@@ -233,9 +233,14 @@
         console.log('click')
         keywords = $('#search').val()
         genres = $('#genre-filter').val();
+        z = $('#ms-genre-filter .ms-selected')
+        for (var s = 0; s < z.lenght; z++){
+          console.log(z[s])
+        }
         instruments = $('#instrument-filter').val();
         moods = $('#mood-filter').val();
         console.log('data collected')
+        console.log(genres)
         $.ajax({
             type: "POST",
             data: { 

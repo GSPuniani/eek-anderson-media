@@ -125,26 +125,60 @@ class Search_Results_View(View):
           instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
         bpm_low = int(request.POST.dict()['bpm_low'])
         bpm_high = int(request.POST.dict()['bpm_high'])
-
+        print(request.POST.dict()['genres'])
+        print(genres_id_list)
+        print([ { "term": { "genre_ids": str(i) }} for i in genres_id_list ])
         responses = settings.ES.search(index="song", body={
             "from": offset*10,
             "size": 10,
             "query": {
-                "combined_fields": {
-                    "fields":["title^4", "description^2", "keywords^3", "intruments", "genres", "moods"],
-                    "query": query,
-                    "operator": "or",
-                    "zero_terms_query": "all"
-                }
-            }
+                "bool": {
+                    "should": [
+                        {
+                            "match": {
+                                "title": {
+                                    "query": query,
+                                    "boost": 300
+                                }
+                            }
+                        },
+                        {
+                            "match": {
+                                "description": {
+                                    "query": query,
+                                    "boost": 200
+                                }
+                            }
+                        },
+                        {
+                            "match": {
+                                "keywords": {
+                                    "query": query,
+                                    "boost": 100
+                                }
+                            }
+                        }
+                    ],
+                    "must" : {
+                        "bool" : {
+                            "should" : 
+                            [{
+                                "match" : {
+                                    "genre_ids": str(i)
+                                }
+                            } for i in genres_id_list],
+                            "minimum_should_match": 1
+                        }
+                    }
+                },
+             },
         })
+
         id_list = []
         song_list = []
         for response in responses['hits']['hits']:
-            print(response['_source'])
             id_list.append(response['_source']['id'])
             song_list.append(Song.objects.filter(id=response['_source']['id']).first())
-        print(song_list)
 
         data = {
             'num':len(song_list),
