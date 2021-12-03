@@ -125,11 +125,11 @@ input:focus {
 /* The side navigation menu */
 .sidenav {
   height: 100%; /* 100% Full-height */
-  position: fixed; /* Stay in place */
   background-color: rgb(31, 31, 31); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  width: 17%;
+  width: 100%;
+  min-width: 300px;
   padding: 20px;
 }
 
@@ -144,24 +144,23 @@ input:focus {
 }
 
 /* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
+/* .sidenav a:hover {
   color: #f1f1f1;
-}
+} */
 
 /* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-}
+/* .sidenav .closebtn { */
+  /* position: absolute; */
+  /* top: 0; */
+  /* right: 25px; */
+  /* font-size: 36px; */
+  /* margin-left: 50px; */
+/* } */
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
+  min-width: 1000px;
   transition: margin-left 0.5s;
-  width: 83%;
-  float: right;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -174,28 +173,31 @@ input:focus {
   }
 }
 
-#menuitem {
+.filter-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.slider {
-  /* display: flex; */
-  /* align-items: top; */
-  /* text-align: center; */
-}
-
-#slider {
-  /* margin: 10px 35px 10px 35px; */
+.filter-title {
+    font-size: 1.5rem;
+    color: white;
+    text-align: center;
 }
 
 #slider-range {
-  margin-top: 15px;
-  width: 100%;
+    width: 130px;
 }
 
 #amount {
   /* margin: 5px; */
   /* margin-left: 32px; */
   border-radius: 2px;
+}
+
+.fa-play:hover {
+    cursor: pointer;
+    color: gray;
 }
 
 input.checkbox-item {
@@ -266,7 +268,7 @@ input.checkbox-item {
   display: none;
   top: 30%;
   left: 52%;
-  position: absolute;
+  position: fixed;
   display: none;
 }
 #data_spinner {
@@ -290,4 +292,21 @@ input.checkbox-item {
 
 #data_loader_text {
   color: black;
+}
+
+#search-btn {
+  min-width: 75px;
+}
+
+@media only screen 
+and (min-device-width : 1172px)  {
+  .fixed_p_col {
+    position: fixed !important;
+  }
+}
+
+.filter-search {
+  min-width: 300px;
+  width: 100%;
+  margin-bottom: .2em;
 }
