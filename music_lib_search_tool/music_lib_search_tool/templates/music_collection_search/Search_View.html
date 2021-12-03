@@ -86,7 +86,7 @@
 
             <!-- Genre Filters -->
             <div class="filter-title">GENRE</div>
-
+            <form id="filter-form">
             <input type="text" name="genre-search" value="" id="genre-search-input" placeholder="search..." class="filter-search"></input>
             
               <select id='genre-filter' multiple='multiple'>
@@ -116,6 +116,7 @@
                 <option value='{{ mood.id }}' selected>{{ mood.name }}</option>
                 {% endfor %}
             </select>
+            </form>>
             <br />
           </div>
         </div>
@@ -283,13 +284,18 @@
         $('#data_spinner').css({"border-top":"150px solid #007bff"});
         console.log('click')
         keywords = $('#search').val()
-        genres = $('#genre-filter').val();
-        z = $('#ms-genre-filter .ms-selected')
-        for (var s = 0; s < z.lenght; z++){
-          console.log(z[s])
-        }
-        instruments = $('#instrument-filter').val();
-        moods = $('#mood-filter').val();
+        var genres = []
+        $('#genre-filter').find('option[selected]').each(function(index) {
+          genres.push(String($(this).val()))
+        })
+        var instruments = []
+        $('#instrument-filter').find('option[selected]').each(function(index) {
+          instruments.push(String($(this).val()))
+        })
+        var moods = []
+        $('#mood-filter').find('option[selected]').each(function(index) {
+          moods.push(String($(this).val()))
+        })
         console.log('data collected')
         console.log(genres)
         $.ajax({
