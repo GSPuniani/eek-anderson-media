@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
+from django.views.generic.base import RedirectView
 
 from music_lib_search_tool.apps.core import views as core_views
 from music_lib_search_tool.apps.music_collection_search import views as music_collection_search_views
+favicon_view = RedirectView.as_view(url='/static/favicon.ico', permanent=True)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,6 +31,7 @@ urlpatterns = [
     path('', music_collection_search_views.Search_View.as_view(), name='Search_View'),
     path('data/', music_collection_search_views.Database_View.as_view(), name='Database_View'),
     path('Search_Test/', music_collection_search_views.Search_Test_View.as_view(), name='Search_Test_View'),
-    path("api/search/<int:offset>", music_collection_search_views.Search_Results_View.as_view(), name="Search_Api")
+    path("api/search/<int:offset>", music_collection_search_views.Search_Results_View.as_view(), name="Search_Api"),
+    re_path(r'^favicon\.ico$', favicon_view),
 ]
 
