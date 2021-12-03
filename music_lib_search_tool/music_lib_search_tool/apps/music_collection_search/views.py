@@ -102,11 +102,18 @@ class Search_Results_View(View):
         moods_id_list = []
         instruments_id_list = []
         if request.POST.dict()['genres'] != "null":
-          genres_id_list = [int(x) for x in request.POST.dict()['genres'].strip('][').split(',')]
+            for x in request.POST.dict()['genres'].strip('][').split(','):
+                if x == '': continue
+                genres_id_list.append(int(x))
         if request.POST.dict()['moods'] != "null":  
-          moods_id_list = [int(x) for x in request.POST.dict()['moods'].strip('][').split(',')]
+            for x in request.POST.dict()['moods'].strip('][').split(','):
+                if x == '': continue
+                moods_id_list.append(int(x))
         if request.POST.dict()['instruments'] != "null":  
-          instruments_id_list = [int(x) for x in request.POST.dict()['instruments'].strip('][').split(',')]
+            for x in request.POST.dict()['instruments'].strip('][').split(','):
+                if x == '': continue
+                instruments_id_list.append(int(x))
+                
         bpm_low = int(request.POST.dict()['bpm_low'])
         bpm_high = int(request.POST.dict()['bpm_high'])
         print(request.POST.dict()['genres'])
