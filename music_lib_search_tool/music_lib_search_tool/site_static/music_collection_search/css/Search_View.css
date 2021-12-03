@@ -307,6 +307,11 @@ and (min-device-width : 1172px)  {
 
 .filter-search {
   min-width: 300px;
+  max-height: 30px;
   width: 100%;
   margin-bottom: .2em;
+}
+
+.ms-container {
+  max-height: 200px;
 }
