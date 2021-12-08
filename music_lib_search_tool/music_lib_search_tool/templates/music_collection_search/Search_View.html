@@ -161,7 +161,7 @@
                           {{ i.sounds_like }}
                       </div>
                   </div>
-                  <div class="iframe"></div>
+                  <div id="soundcloud_data" data-link="{{ i.soundcloud_link }}"class="iframe"></div>
               </li>
               {% endfor %}
             </ul>
@@ -197,6 +197,7 @@
         if yes, toggle hide/show
         if not, load soundcloud iframe widget */
         function showSoundcloud(el){
+            let soundcloud_link = $('#soundcloud_data').data()
             let iframe = $(el).parent().siblings('.iframe')
             if(iframe.find('iframe').length){
                 $(el).parent().siblings('.iframe').slideToggle()
@@ -204,7 +205,7 @@
                 $.ajax({
                     type: "get",
                     data: { 
-                        "url": 'https://soundcloud.com/felixblume/wind-singing-in-an-old-tube-on-the-top-of-the-mountain-chacaltaya',
+                        "url": soundcloud_link['link'],
                         'format': 'json'
                         },
                         url: 'https://soundcloud.com/oembed',
