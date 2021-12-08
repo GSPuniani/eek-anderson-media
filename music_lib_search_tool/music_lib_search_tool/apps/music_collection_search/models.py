@@ -162,6 +162,8 @@ class Song(UuidBase, CreationModificationDateBase):
     exclusive_email = models.CharField(max_length=128, blank=True, null=True)
     publisher_split = models.CharField(max_length=512, blank=True, null=True)
     writer_split = models.CharField(max_length=512, blank=True, null=True)
+    soundcloud_link = models.CharField(max_length=256, blank=True, null=True)
+
     error = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -181,7 +183,8 @@ class Song(UuidBase, CreationModificationDateBase):
            'overall_quality':self.overall_quality,
            'genre':[g.to_dict() for g in self.genre.all()],
            'instrument':[i.to_dict() for i in self.instrument.all()],
-           'mood':[m.to_dict() for m in self.mood.all()]
+           'mood':[m.to_dict() for m in self.mood.all()],
+           'soundcloud_link':self.soundcloud_link
         }
 
     def get_duration(self):
