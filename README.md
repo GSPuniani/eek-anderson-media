@@ -35,7 +35,7 @@ This webapp is part of an Industry Collaboration project. The main goal for this
 
 ## Deployment
 
-The webapp is live! Visit [here](http://13.52.255.54/).
+The webapp is live! Visit [here](http://13.52.168.242).
 
 The homepage displays the search bar front and center, with the list of results appearing below. Each song result can be expanded to display additional details, such as Mode, Description, Time Signature, and Sounds Like. The search filters can be adjusted in the side panel on the left: the BPM range is adjusted with a slider, and the other filters (Genre, Instrument, and Mood) each have two lists - one for including in the search (right) and one for excluding from the search (left). 
 
