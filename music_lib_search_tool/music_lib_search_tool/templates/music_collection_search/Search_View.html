@@ -149,7 +149,7 @@
                     {% for i in songs %}
                     <li class="list-group-item">
                       <div class="song-title">
-                          <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
+                          <i id="sound-{{ i.id }}" class="fas fa-play" onclick="showSoundcloud('sound-{{ i.id }}', this)" data-link="{{ i.soundcloud_link }}"></i>
                             {{ i.title }}
                             <span class="song-length">
                                 {{ i.get_duration }}
@@ -175,7 +175,7 @@
                                 {{ i.sounds_like }}
                             </div>
                         </div>
-                        <div id="soundcloud_data" data-link="{{ i.soundcloud_link }}"class="iframe"></div>
+                        <div id="soundcloud_data" class="iframe"></div>
                     </li>
                     {% endfor %}
                   </ul>
@@ -238,8 +238,8 @@
         then check if the soundcloud iframe is already loaded inside it
         if yes, toggle hide/show
         if not, load soundcloud iframe widget */
-        function showSoundcloud(el){
-            let soundcloud_link = $('#soundcloud_data').data()
+        function showSoundcloud(id, el){
+            let link = $(`#${id}`).data('link')
             let iframe = $(el).parent().siblings('.iframe')
             if(iframe.find('iframe').length){
                 $(el).parent().siblings('.iframe').slideToggle()
@@ -247,7 +247,7 @@
                 $.ajax({
                     type: "get",
                     data: { 
-                        "url": soundcloud_link['link'],
+                        "url": link,
                         'format': 'json'
                         },
                         url: 'https://soundcloud.com/oembed',
@@ -322,11 +322,11 @@
               for(var index in data.songs) {
                 console.log(index)
                 var song = data.songs[index]
-                console.log(song);
+                console.log(song.soundcloud_link);
                 song_html = `
                 <li class="list-group-item">
                   <div class="song-title">
-                    <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
+                    <i id="sound-${ song.id }" class="fas fa-play" onclick="showSoundcloud('sound-${ song.id }', this)" data-link="${ song.soundcloud_link }"></i>
                     ${song.title}
                       <span class="song-length">
                         ${song.duration}
@@ -352,7 +352,7 @@
                             ${ song.sounds_like }
                         </div>
                     </div>
-                    <div id="soundcloud_data" data-link="${ song.soundcloud_link }"class="iframe"></div>
+                    <div id="soundcloud_data" class="iframe"></div>
                 </li>
                 `
                 $('#song-list').append(song_html)

@@ -172,19 +172,20 @@ class Song(UuidBase, CreationModificationDateBase):
 
     def to_dict(self):
         return {
-           'title':self.title,
-           'description':self.description,
-           'duration':self.get_duration(),
-           'key':self.music_key,
-           'mode':self.mode.to_dict(),
-           'time_signature':self.time_signature.to_dict(),
-           'sounds_like':self.sounds_like,
-           'bpm':self.bpm,
-           'overall_quality':self.overall_quality,
-           'genre':[g.to_dict() for g in self.genre.all()],
-           'instrument':[i.to_dict() for i in self.instrument.all()],
-           'mood':[m.to_dict() for m in self.mood.all()],
-           'soundcloud_link':self.soundcloud_link
+            'id':self.id,
+            'title':self.title,
+            'description':self.description,
+            'duration':self.get_duration(),
+            'key':self.music_key,
+            'mode':self.mode.to_dict(),
+            'time_signature':self.time_signature.to_dict(),
+            'sounds_like':self.sounds_like,
+            'bpm':self.bpm,
+            'overall_quality':self.overall_quality,
+            'genre':[g.to_dict() for g in self.genre.all()],
+            'instrument':[i.to_dict() for i in self.instrument.all()],
+            'mood':[m.to_dict() for m in self.mood.all()],
+            'soundcloud_link':self.soundcloud_link
         }
 
     def get_duration(self):
