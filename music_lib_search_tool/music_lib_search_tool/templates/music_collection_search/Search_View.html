@@ -60,115 +60,139 @@
     <title>Search Page</title>
   </head>
   <body>
+    <div class="container-xxl">
     <!--navbar-->
-    <div class="header-primary-nav">
-      <div class="header-primary-nav-right ml-auto">
-        <h1 id="logo">Song Database</h1>
-      </div>
-      <div class="header-primary-nav-left"></div>
-      <div id="mySidenav" class="sidenav">
+      <div class='row'>
+        <div class="col-sm-3 fixed_p_col" style="padding: 0; z-index: 1;">
+          <div id="mySidenav" class="sidenav">
 
-        <!-- BPM Filter -->
-        <a href="#" id="menuitem">BPM</a>
-        <div class="slider">
-          <p id="slider">
-            <label for="amount"></label>
-            <input
-              type="text"
-              id="amount"
-              readonly
-              style="color: #99cc00; font-weight: bold; width: 88px"
-            />
-          </p>
-          <div id="slider-range"></div>
-        </div>
+            <!-- BPM Filter -->
+            <div class="filter-group">
+                <div class="filter-title">BPM</div>
+                <!-- <div class="slider"> -->
+                    <p id="slider">
+                        <label for="amount"></label>
+                        <input
+                        type="text"
+                        id="amount"
+                        readonly
+                        style="color: #99cc00; font-weight: bold; width: 88px"
+                        />
+                    </p>
+                    <div id="slider-range"></div>
+                <!-- </div> -->
+            </div>
+            <br/>
 
-        <!-- Genre Filters -->
-        <a href="#" id="menuitem">GENRE</a>
+            <!-- Genre Filters -->
+            <div class="filter-title">GENRE</div>
+            <form id="filter-form">
+            <input type="text" name="genre-search" value="" id="genre-search-input" placeholder="search..." class="filter-search"></input>
+            
+              <select id='genre-filter' multiple='multiple'>
+                {% for genre in genres %}
+                  <option value='{{ genre.id }}' selected>{{ genre.name }}</option>
+                {% endfor %}
+              </select>
+            <br />
 
-        <select id='genre-filter' multiple='multiple'>
-          {% for genre in genres %}
-            <option value='{{ genre.id }}' selected>{{ genre.name }}</option>
-          {% endfor %}
-        </select>
-        <a href="#" id="menuitem">INSTRUMENT</a>
-        <select id='instrument-filter' multiple='multiple'>
-          {% for instrument in instruments %}
-            <option value='{{ instrument.id }}' selected>{{ instrument.name }}</option>
-          {% endfor %}
-        </select>
-        <a href="#" id="menuitem">MOOD</a>
-        <select id='mood-filter' multiple='multiple'>
-          {% for mood in moods %}
-            <option value='{{ mood.id }}' selected>{{ mood.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-      <div class="header-primary-nav-right ml-auto">
-        <h1 id="logo">Song Database</h1>
-      </div>
-    </div>
-    <div id="main">
-      <div class="jumbotron jumbotron-fluid" id="search-main">
-        <div class="container">
-          
-          <!-- Search Bar -->
-          <div class="searchBar">
-            <input type="search" id="search" placeholder="Search Song..." />
-            <button id="search-btn">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
+            <div class="filter-title">INSTRUMENT</div>
 
-          <!-- Song Data -->
-          <div id="results">
-            <ul id="song-list" class="list-group">
+            <input type="text" name="instrument-search" value="" id="instrument-search-input" placeholder="search..." class="filter-search"></input>
 
-              {% for i in songs %}
-              <li class="list-group-item">
-                <div class="song-title">
-                    <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
-                      {{ i.title }}
-                      <span class="song-length">
-                          {{ i.get_duration }}
-                      </span>
-                      <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
-                  </div>
-                  <div class="song-toggled-details">
-                      <div class="music-context">
-                          <span class="music-mode">
-                              {{ i.mode.name }}
-                          </span>
-                          ,
-                          <span class="time-sig">
-                              {{ i.time_signature.name }}
-                          </span>
-                      </div>
-                      <div class="description">
-                          <span>Description: </span>
-                          {{ i.description }}
-                      </div>
-                      <div class="sounds-like">
-                          <span>Sounds Like: </span>
-                          {{ i.sounds_like }}
-                      </div>
-                  </div>
-                  <div class="iframe"></div>
-              </li>
+            <select id='instrument-filter' multiple='multiple'>
+              {% for instrument in instruments %}
+                <option value='{{ instrument.id }}' selected>{{ instrument.name }}</option>
               {% endfor %}
-            </ul>
-            <div id="data_loader">
-              <div id="data_spinner">
+            </select>
+            <br />
+            
+            <div class="filter-title">MOOD</div>
 
-              </div>
-              <div id="data_loader_text_div">
-                <h3 id="data_loader_text">Loading Data...</h3>
+            <input type="text" name="mood-search" value="" id="mood-search-input" placeholder="search..." class="filter-search"></input>
+
+            <select id='mood-filter' multiple='multiple'>
+                {% for mood in moods %}
+                <option value='{{ mood.id }}' selected>{{ mood.name }}</option>
+                {% endfor %}
+            </select>
+            </form>>
+            <br />
+          </div>
+        </div>
+        <div class="col-sm-3" style="padding: 0;"></div>
+        <div class="col-sm-9" style="padding: 0;">
+          <div class="header-primary-nav">
+            <div class="header-primary-nav-right ml-auto">
+              <h1 id="logo">Song Database</h1>
+            </div>
+            <div class="header-primary-nav-left"></div>
+          </div>
+          <div id="main">
+            <div id="search-main">
+              <div class="container">
+                
+                <!-- Search Bar -->
+                <div class="searchBar">
+                    <div class="input-group mb-3">
+                      <input type="search" id="search" placeholder="Search Song..." />
+                      <button id="search-btn">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                </div>
+
+                <!-- Song Data -->
+                <div id="results">
+                  <ul id="song-list" class="list-group">
+
+                    {% for i in songs %}
+                    <li class="list-group-item">
+                      <div class="song-title">
+                          <i id="sound-{{ i.id }}" class="fas fa-play" onclick="showSoundcloud('sound-{{ i.id }}', this)" data-link="{{ i.soundcloud_link }}"></i>
+                            {{ i.title }}
+                            <span class="song-length">
+                                {{ i.get_duration }}
+                            </span>
+                            <span class="fas fa-angle-down song-toggle" onclick="toggleDetail(this)"></span>
+                        </div>
+                        <div class="song-toggled-details">
+                            <div class="music-context">
+                                <span class="music-mode">
+                                    {{ i.mode.name }}
+                                </span>
+                                ,
+                                <span class="time-sig">
+                                    {{ i.time_signature.name }}
+                                </span>
+                            </div>
+                            <div class="description">
+                                <span>Description: </span>
+                                {{ i.description }}
+                            </div>
+                            <div class="sounds-like">
+                                <span>Sounds Like: </span>
+                                {{ i.sounds_like }}
+                            </div>
+                        </div>
+                        <div id="soundcloud_data" class="iframe"></div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  <div id="data_loader">
+                    <div id="data_spinner">
+
+                    </div>
+                    <div id="data_loader_text_div">
+                      <h3 id="data_loader_text">Loading Data...</h3>
+                    </div>
+                  </div>
+                </div>
+                <!-- End of Song Data -->
+                <button class='btn btn-dark btn-lg' id='page-btn'>Load More</button>
               </div>
             </div>
           </div>
-          <!-- End of Song Data -->
-          <button class='btn btn-dark' id='page-btn'>Load More</button>
         </div>
       </div>
     </div>
@@ -181,6 +205,31 @@
       $('#instrument-filter').multiSelect();
       $('#mood-filter').multiSelect();
     </script>
+    <script>
+      function remove_by_val_search(select_id, search_val) {
+        var options = $(`#ms-${select_id} .ms-list li`)
+        for(var index = 0; index < options.length; index++ ) {
+          if (options[index].innerHTML.toLowerCase().includes(search_val.toLowerCase()) || search_val == '') {
+            options[index].hidden = false;
+          } else {
+            options[index].hidden = true;
+          }
+        }
+      }
+
+      $( "#genre-search-input" ).on('keyup change', function() {
+        let search_val = $("#genre-search-input").val()
+        remove_by_val_search('genre-filter', search_val)
+      });
+      $( "#instrument-search-input" ).on('keyup change', function() {
+        let search_val = $("#instrument-search-input").val()
+        remove_by_val_search('instrument-filter', search_val)
+      });
+      $( "#mood-search-input" ).on('keyup change', function() {
+        let search_val = $("#mood-search-input").val()
+        remove_by_val_search('mood-filter', search_val)
+      });
+    </script>
 
     <!-- handle play button -->
     <script>
@@ -189,7 +238,8 @@
         then check if the soundcloud iframe is already loaded inside it
         if yes, toggle hide/show
         if not, load soundcloud iframe widget */
-        function showSoundcloud(el){
+        function showSoundcloud(id, el){
+            let link = $(`#${id}`).data('link')
             let iframe = $(el).parent().siblings('.iframe')
             if(iframe.find('iframe').length){
                 $(el).parent().siblings('.iframe').slideToggle()
@@ -197,7 +247,7 @@
                 $.ajax({
                     type: "get",
                     data: { 
-                        "url": 'https://soundcloud.com/felixblume/wind-singing-in-an-old-tube-on-the-top-of-the-mountain-chacaltaya',
+                        "url": link,
                         'format': 'json'
                         },
                         url: 'https://soundcloud.com/oembed',
@@ -226,16 +276,27 @@
       var cur_page = 0
       function populate_list(event, remove_old) {
         if (remove_old){$('#song-list').empty();}
+        $("#page-btn").css({"display":"none"})
         $("#data_loader").css({"display":"block"});
         $("#data_loader_text").css({"color":"black"});
         $('#data_loader_text').text('Loading Data...');
         $('#data_spinner').css({"border-top":"150px solid #007bff"});
         console.log('click')
         keywords = $('#search').val()
-        genres = $('#genre-filter').val();
-        instruments = $('#instrument-filter').val();
-        moods = $('#mood-filter').val();
+        var genres = []
+        $('#genre-filter').find('option[selected]').each(function(index) {
+          genres.push(String($(this).val()))
+        })
+        var instruments = []
+        $('#instrument-filter').find('option[selected]').each(function(index) {
+          instruments.push(String($(this).val()))
+        })
+        var moods = []
+        $('#mood-filter').find('option[selected]').each(function(index) {
+          moods.push(String($(this).val()))
+        })
         console.log('data collected')
+        console.log(genres)
         $.ajax({
             type: "POST",
             data: { 
@@ -261,11 +322,11 @@
               for(var index in data.songs) {
                 console.log(index)
                 var song = data.songs[index]
-                console.log(song);
+                console.log(song.soundcloud_link);
                 song_html = `
                 <li class="list-group-item">
                   <div class="song-title">
-                    <i class="fas fa-play" onclick="showSoundcloud(this)"></i>
+                    <i id="sound-${ song.id }" class="fas fa-play" onclick="showSoundcloud('sound-${ song.id }', this)" data-link="${ song.soundcloud_link }"></i>
                     ${song.title}
                       <span class="song-length">
                         ${song.duration}
@@ -291,10 +352,13 @@
                             ${ song.sounds_like }
                         </div>
                     </div>
-                    <div class="iframe"></div>
+                    <div id="soundcloud_data" class="iframe"></div>
                 </li>
                 `
                 $('#song-list').append(song_html)
+              }
+              if (data.songs.length == 10) {
+                $("#page-btn").css({"display":"inline-block"});
               }
             }
         })
